@@ -14,6 +14,7 @@ fun cfg(name: String, fallback: String): String =
 // Google's public AdMob TEST ids (safe default).
 val testAppId = "ca-app-pub-3940256099942544~3347511713"
 val testBannerId = "ca-app-pub-3940256099942544/9214589741"
+val testAppOpenId = "ca-app-pub-3940256099942544/9257395921"
 
 val keystorePath: String? = System.getenv("KEYSTORE_FILE")?.takeIf { it.isNotBlank() && file(it).exists() }
 
@@ -55,6 +56,7 @@ android {
         debug {
             manifestPlaceholders["admobAppId"] = testAppId
             buildConfigField("String", "ADMOB_BANNER_ID", "\"$testBannerId\"")
+            buildConfigField("String", "ADMOB_APP_OPEN_ID", "\"$testAppOpenId\"")
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
         }
@@ -64,6 +66,7 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             manifestPlaceholders["admobAppId"] = cfg("ADMOB_APP_ID", testAppId)
             buildConfigField("String", "ADMOB_BANNER_ID", "\"" + cfg("ADMOB_BANNER_ID", testBannerId) + "\"")
+            buildConfigField("String", "ADMOB_APP_OPEN_ID", "\"" + cfg("ADMOB_APP_OPEN_ID", testAppOpenId) + "\"")
             if (keystorePath != null) signingConfig = signingConfigs.getByName("release")
         }
     }

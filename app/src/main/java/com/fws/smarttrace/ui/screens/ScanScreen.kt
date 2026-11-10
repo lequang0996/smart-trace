@@ -155,7 +155,7 @@ private fun Hero() {
             Box(
                 Modifier.size(58.dp).clip(CircleShape).background(Gold.copy(alpha = 0.16f)),
                 contentAlignment = Alignment.Center,
-            ) { Ico(R.drawable.ic_shield, tint = Gold, size = 32.dp) }
+            ) { Ico(R.drawable.ic_scan_code, tint = Gold, size = 34.dp) }
             Spacer(Modifier.width(16.dp))
             Column {
                 Text(

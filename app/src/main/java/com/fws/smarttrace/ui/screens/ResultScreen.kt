@@ -195,11 +195,6 @@ private fun OverviewTab(vm: AppViewModel, r: ScanResult, paragraphs: List<String
         if (l.productName.isNotBlank()) LabelValue(stringResource(R.string.f_product), l.productName)
         if (l.brand.isNotBlank()) LabelValue(stringResource(R.string.f_brand), l.brand)
         LabelValue(stringResource(R.string.f_category), stringResource(FindingText.categoryRes(l.category)))
-        Text(
-            if (r.mode == AnalysisMode.GEMINI) ctx.getString(R.string.src_gemini, r.model) else ctx.getString(R.string.src_offline),
-            modifier = Modifier.padding(top = 6.dp),
-            style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
     }
 
     val issues = r.findings.filter { it.severity == Severity.BAD || it.severity == Severity.WARN }.take(4)

@@ -11,11 +11,11 @@
     <string name="mode_offline">Sin conexión</string>
     <string name="mode_gemini">Gemini AI</string>
     <string name="mode_hint_offline">Funciona en tu teléfono. Tu foto no se sube.</string>
-    <string name="mode_hint_gemini">Usa tu propia clave de Gemini API. La foto se envía a Google para analizarla.</string>
+    <string name="mode_hint_gemini">Gemini tiene modelos de visión que leen datos, analizan imágenes y traducen mejor que el modo sin conexión.</string>
     <string name="need_key">Añade una clave de Gemini API para usar el modo Gemini.</string>
     <string name="btn_add_key">Añadir clave</string>
     <string name="tips_title">Consejos para una buena foto</string>
-    <string name="tips_body">• Llena el encuadre con la etiqueta.\n• Evita reflejos y sombras.\n• Fotografía los códigos de barras y QR de cerca y por separado.\n• Haz una foto de cada cara del envase.</string>
+    <string name="tips_body">• Llena el encuadre con la etiqueta.\n• Evita reflejos y sombras.\n• Fotografía los códigos de barras y QR de cerca y por separado.</string>
     <string name="stage_prepare">Preparando la imagen…</string>
     <string name="stage_code">Buscando códigos de barras y QR…</string>
     <string name="stage_read">Leyendo el texto de la etiqueta en tu teléfono…</string>
@@ -39,8 +39,6 @@
     <string name="verdict_desc_insufficient">Hay muy poca información legible. Prueba con una foto más nítida y cercana.</string>
     <string name="score_label">Puntuación de coherencia %1$s/100</string>
     <string name="disclaimer">Solo de referencia. Una foto no puede demostrar que un producto sea genuino. Confírmalo con el fabricante o un vendedor autorizado.</string>
-    <string name="src_offline">Analizado en tu teléfono</string>
-    <string name="src_gemini">Analizado con Gemini (%1$s)</string>
     <string name="top_issues">Puntos a revisar</string>
     <string name="sec_codes">Códigos de barras y QR</string>
     <string name="code_source_scan">Escaneado</string>
@@ -107,10 +105,7 @@
     <string name="theme_light">Claro</string>
     <string name="theme_dark">Oscuro</string>
     <string name="set_language">Idioma</string>
-    <string name="lang_system">Predeterminado del sistema</string>
     <string name="set_tts_speed">Velocidad de lectura (hasta 4×)</string>
-    <string name="set_online">Comprobar códigos en línea</string>
-    <string name="set_online_desc">Solo se envía el número del código a bases de datos de productos abiertas.</string>
     <string name="set_keys">Claves de Gemini API</string>
     <string name="set_keys_count">%1$s clave(s) guardada(s)</string>
     <string name="set_model">Modelo</string>

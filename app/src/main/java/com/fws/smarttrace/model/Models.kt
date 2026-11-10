@@ -43,6 +43,7 @@ data class ExtractedLabel(
     val category: String = "other",
     val manufacturer: String = "",
     val origin: String = "",
+    val originIso: String = "",
     val address: String = "",
     val phone: String = "",
     val size: String = "",
@@ -69,7 +70,7 @@ data class ExtractedLabel(
 ) {
     fun toJson(): JSONObject = JSONObject().apply {
         put("productName", productName); put("brand", brand); put("category", category)
-        put("manufacturer", manufacturer); put("origin", origin); put("address", address); put("phone", phone)
+        put("manufacturer", manufacturer); put("origin", origin); put("originIso", originIso); put("address", address); put("phone", phone)
         put("size", size)
         quantityPcs?.let { put("quantityPcs", it) }
         areaSqm?.let { put("areaSqm", it) }
@@ -99,7 +100,7 @@ data class ExtractedLabel(
             return ExtractedLabel(
                 productName = o.str("productName"), brand = o.str("brand"),
                 category = o.str("category").ifBlank { "other" },
-                manufacturer = o.str("manufacturer"), origin = o.str("origin"),
+                manufacturer = o.str("manufacturer"), origin = o.str("origin"), originIso = o.str("originIso"),
                 address = o.str("address"), phone = o.str("phone"), size = o.str("size"),
                 quantityPcs = o.int("quantityPcs"), areaSqm = o.dbl("areaSqm"),
                 netWeightKg = o.dbl("netWeightKg"), grossWeightKg = o.dbl("grossWeightKg"),

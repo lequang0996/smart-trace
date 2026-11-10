@@ -11,11 +11,11 @@
     <string name="mode_offline">离线</string>
     <string name="mode_gemini">Gemini AI</string>
     <string name="mode_hint_offline">在手机上运行，照片不会上传。</string>
-    <string name="mode_hint_gemini">使用您自己的 Gemini API 密钥，照片将发送给 Google 分析。</string>
+    <string name="mode_hint_gemini">Gemini 拥有视觉模型，读取数据、分析图片和翻译的效果都优于离线模式。</string>
     <string name="need_key">请先添加 Gemini API 密钥以使用 Gemini 模式。</string>
     <string name="btn_add_key">添加密钥</string>
     <string name="tips_title">拍好照片的小技巧</string>
-    <string name="tips_body">• 让标签尽量占满画面。\n• 避免反光和阴影。\n• 条码和二维码请近距离单独拍摄。\n• 包装的每个面各拍一张。</string>
+    <string name="tips_body">• 让标签尽量占满画面。\n• 避免反光和阴影。\n• 条码和二维码请近距离单独拍摄。</string>
     <string name="stage_prepare">正在处理图片…</string>
     <string name="stage_code">正在查找条码和二维码…</string>
     <string name="stage_read">正在本机识别标签文字…</string>
@@ -39,8 +39,6 @@
     <string name="verdict_desc_insufficient">可识别的信息太少，请换一张更清晰、更近的照片。</string>
     <string name="score_label">一致性得分 %1$s/100</string>
     <string name="disclaimer">仅供参考。一张照片无法证明商品为正品，请向厂家或授权经销商确认。</string>
-    <string name="src_offline">在本机分析</string>
-    <string name="src_gemini">由 Gemini 分析（%1$s）</string>
     <string name="top_issues">需要核查的要点</string>
     <string name="sec_codes">条码与二维码</string>
     <string name="code_source_scan">扫描所得</string>
@@ -107,10 +105,7 @@
     <string name="theme_light">浅色</string>
     <string name="theme_dark">深色</string>
     <string name="set_language">语言</string>
-    <string name="lang_system">跟随系统</string>
     <string name="set_tts_speed">朗读速度（最高 4×）</string>
-    <string name="set_online">在线核对条码</string>
-    <string name="set_online_desc">仅将条码数字发送到开放的商品数据库。</string>
     <string name="set_keys">Gemini API 密钥</string>
     <string name="set_keys_count">已保存 %1$s 个密钥</string>
     <string name="set_model">模型</string>

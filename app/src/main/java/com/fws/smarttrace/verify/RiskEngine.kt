@@ -155,7 +155,7 @@ object RiskEngine {
                     add("GTIN_OK", Severity.OK, shown)
                     val iso = c.prefixIso
                     if (iso != null) {
-                        val originIso = Gtin.originToIso(label.origin)
+                        val originIso = label.originIso.ifBlank { null } ?: Gtin.originToIso(label.origin)
                         if (originIso != null && originIso != iso) add("PREFIX_DIFF", Severity.INFO, label.origin, "iso:$iso")
                         else add("PREFIX", Severity.INFO, Gtin.prefix3(shown) ?: "", "iso:$iso")
                     }

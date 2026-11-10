@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalWindowInfo
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.fws.smarttrace.BuildConfig
@@ -22,11 +23,11 @@ import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 
 /**
- * Adaptive banner. Placed inside scrolling content with generous spacing, never next to buttons,
- * and never on the scan / result screens. Shown only after the consent flow allows ads.
+ * Adaptive banner, shown only after the consent flow allows ads. It sits in its own row (the scan screen pins it
+ * above the bottom navigation, history / settings place it inside the list) and never on the result screen.
  */
 @Composable
-fun BannerAd(modifier: Modifier = Modifier) {
+fun BannerAd(modifier: Modifier = Modifier, verticalPadding: Dp = 20.dp) {
     val ready by AdsManager.ready.collectAsState()
     if (!ready) return
     val context = LocalContext.current
@@ -43,7 +44,7 @@ fun BannerAd(modifier: Modifier = Modifier) {
     DisposableEffect(adView) {
         onDispose { adView.destroy() }
     }
-    Box(modifier.fillMaxWidth().padding(vertical = 20.dp), contentAlignment = Alignment.Center) {
+    Box(modifier.fillMaxWidth().padding(vertical = verticalPadding), contentAlignment = Alignment.Center) {
         AndroidView(factory = { adView })
     }
 }

@@ -31,10 +31,6 @@ class Prefs(context: Context) {
         get() = sp.getBoolean("gemini_consent", false)
         set(v) = sp.edit().putBoolean("gemini_consent", v).apply()
 
-    var onlineCheck: Boolean
-        get() = sp.getBoolean("online_check", true)
-        set(v) = sp.edit().putBoolean("online_check", v).apply()
-
     var geminiModel: String
         get() = sp.getString("gemini_model", DEFAULT_MODEL)?.takeIf { it.isNotBlank() } ?: DEFAULT_MODEL
         set(v) = sp.edit().putString("gemini_model", v.trim()).apply()

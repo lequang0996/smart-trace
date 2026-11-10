@@ -11,11 +11,11 @@
     <string name="mode_offline">Офлайн</string>
     <string name="mode_gemini">Gemini AI</string>
     <string name="mode_hint_offline">Работает на телефоне. Фото не загружается.</string>
-    <string name="mode_hint_gemini">Используется ваш ключ Gemini API. Фото отправляется в Google для анализа.</string>
+    <string name="mode_hint_gemini">У Gemini есть модели компьютерного зрения: он лучше читает данные, анализирует изображения и переводит, чем автономный режим.</string>
     <string name="need_key">Добавьте ключ Gemini API, чтобы использовать режим Gemini.</string>
     <string name="btn_add_key">Добавить ключ</string>
     <string name="tips_title">Советы для хорошего снимка</string>
-    <string name="tips_body">• Пусть этикетка занимает весь кадр.\n• Избегайте бликов и теней.\n• Штрихкоды и QR-коды снимайте отдельно и крупно.\n• Снимайте каждую сторону упаковки.</string>
+    <string name="tips_body">• Пусть этикетка занимает весь кадр.\n• Избегайте бликов и теней.\n• Штрихкоды и QR-коды снимайте отдельно и крупно.</string>
     <string name="stage_prepare">Подготовка снимка…</string>
     <string name="stage_code">Поиск штрихкодов и QR-кодов…</string>
     <string name="stage_read">Распознавание текста этикетки на телефоне…</string>
@@ -39,8 +39,6 @@
     <string name="verdict_desc_insufficient">Читаемой информации слишком мало. Сделайте более чёткий снимок вблизи.</string>
     <string name="score_label">Оценка согласованности %1$s/100</string>
     <string name="disclaimer">Только для справки. Фото не доказывает подлинность товара. Уточните у производителя или официального продавца.</string>
-    <string name="src_offline">Проанализировано на телефоне</string>
-    <string name="src_gemini">Анализ Gemini (%1$s)</string>
     <string name="top_issues">Что проверить</string>
     <string name="sec_codes">Штрихкоды и QR-коды</string>
     <string name="code_source_scan">Отсканировано</string>
@@ -107,10 +105,7 @@
     <string name="theme_light">Светлая</string>
     <string name="theme_dark">Тёмная</string>
     <string name="set_language">Язык</string>
-    <string name="lang_system">Как в системе</string>
     <string name="set_tts_speed">Скорость чтения (до 4×)</string>
-    <string name="set_online">Проверять штрихкоды онлайн</string>
-    <string name="set_online_desc">В открытые базы товаров отправляется только номер штрихкода.</string>
     <string name="set_keys">Ключи Gemini API</string>
     <string name="set_keys_count">Сохранено ключей: %1$s</string>
     <string name="set_model">Модель</string>

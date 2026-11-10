@@ -2,6 +2,7 @@ package com.fws.smarttrace.ui
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -25,6 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.fws.smarttrace.R
+import com.fws.smarttrace.ui.components.BannerAd
 import com.fws.smarttrace.ui.components.Ico
 import com.fws.smarttrace.ui.screens.GuideScreen
 import com.fws.smarttrace.ui.screens.HistoryScreen
@@ -75,7 +77,7 @@ fun AppRoot(
         result != null -> ResultScreen(vm, result, onBack = { vm.closeResult() })
         else -> {
             val items = listOf(
-                NavItem(R.string.nav_scan, R.drawable.ic_scan),
+                NavItem(R.string.nav_scan, R.drawable.ic_scan_code),
                 NavItem(R.string.nav_history, R.drawable.ic_history),
                 NavItem(R.string.nav_favorites, R.drawable.ic_heart),
                 NavItem(R.string.nav_settings, R.drawable.ic_sliders),
@@ -104,13 +106,17 @@ fun AppRoot(
                     }
                 },
             ) { padding ->
-                Box(Modifier.padding(padding)) {
-                    when (tab) {
-                        0 -> ScanScreen(vm, onCamera, onGallery, onOpenKeys = { overlay = OVERLAY_KEYS })
-                        1 -> HistoryScreen(vm, favoritesOnly = false)
-                        2 -> HistoryScreen(vm, favoritesOnly = true)
-                        else -> SettingsScreen(vm, onGuide = { overlay = OVERLAY_GUIDE }, onKeys = { overlay = OVERLAY_KEYS })
+                Column(Modifier.padding(padding)) {
+                    Box(Modifier.weight(1f)) {
+                        when (tab) {
+                            0 -> ScanScreen(vm, onCamera, onGallery, onOpenKeys = { overlay = OVERLAY_KEYS })
+                            1 -> HistoryScreen(vm, favoritesOnly = false)
+                            2 -> HistoryScreen(vm, favoritesOnly = true)
+                            else -> SettingsScreen(vm, onGuide = { overlay = OVERLAY_GUIDE }, onKeys = { overlay = OVERLAY_KEYS })
+                        }
                     }
+                    // Visible as soon as the app opens (History / Settings carry their own in-list banner).
+                    if (tab == 0) BannerAd(verticalPadding = 6.dp)
                 }
             }
         }

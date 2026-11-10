@@ -11,11 +11,11 @@
     <string name="mode_offline">オフライン</string>
     <string name="mode_gemini">Gemini AI</string>
     <string name="mode_hint_offline">スマホ内で処理します。写真はアップロードされません。</string>
-    <string name="mode_hint_gemini">ご自身の Gemini API キーを使用します。写真は解析のため Google に送信されます。</string>
+    <string name="mode_hint_gemini">Gemini にはビジョンモデルがあり、データの読み取り、画像の分析、翻訳がオフラインモードより優れています。</string>
     <string name="need_key">Gemini モードを使うには Gemini API キーを追加してください。</string>
     <string name="btn_add_key">キーを追加</string>
     <string name="tips_title">上手に撮るコツ</string>
-    <string name="tips_body">• ラベルが画面いっぱいになるように撮ります。\n• 反射や影を避けます。\n• バーコードとQRコードは近くで別々に撮ります。\n• パッケージの各面を1枚ずつ撮ります。</string>
+    <string name="tips_body">• ラベルが画面いっぱいになるように撮ります。\n• 反射や影を避けます。\n• バーコードとQRコードは近くで別々に撮ります。</string>
     <string name="stage_prepare">画像を準備中…</string>
     <string name="stage_code">バーコードとQRコードを検索中…</string>
     <string name="stage_read">ラベルの文字を端末内で読み取り中…</string>
@@ -39,8 +39,6 @@
     <string name="verdict_desc_insufficient">読み取れる情報が少なすぎます。より鮮明で近い写真をお試しください。</string>
     <string name="score_label">整合性スコア %1$s/100</string>
     <string name="disclaimer">参考情報です。写真だけでは本物であることを証明できません。メーカーまたは正規販売店に確認してください。</string>
-    <string name="src_offline">端末内で解析</string>
-    <string name="src_gemini">Gemini で解析（%1$s）</string>
     <string name="top_issues">確認ポイント</string>
     <string name="sec_codes">バーコードとQRコード</string>
     <string name="code_source_scan">スキャン</string>
@@ -107,10 +105,7 @@
     <string name="theme_light">ライト</string>
     <string name="theme_dark">ダーク</string>
     <string name="set_language">言語</string>
-    <string name="lang_system">システムの設定</string>
     <string name="set_tts_speed">読み上げ速度（最大 4×）</string>
-    <string name="set_online">バーコードをオンライン照会</string>
-    <string name="set_online_desc">オープンな商品データベースにはバーコード番号のみ送信します。</string>
     <string name="set_keys">Gemini API キー</string>
     <string name="set_keys_count">%1$s 件のキーを保存済み</string>
     <string name="set_model">モデル</string>

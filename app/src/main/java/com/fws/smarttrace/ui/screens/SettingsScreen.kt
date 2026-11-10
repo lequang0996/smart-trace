@@ -22,12 +22,16 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Switch
-import androidx.compose.material3.SwitchDefaults
+import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -52,8 +56,15 @@ private tailrec fun Context.findActivity(): Activity? = when (this) {
     else -> null
 }
 
-private val SPEEDS = listOf(1f, 1.5f, 2f, 3f, 4f)
-private fun speedLabel(s: Float): String = (if (s % 1f == 0f) s.toInt().toString() else s.toString()) + "×"
+private const val MIN_SPEED = 1f
+private const val MAX_SPEED = 4f
+private const val SPEED_STEP = 0.25f
+
+/** 1× · 1.25× · 1.5× · 1.75× … 4× */
+private fun speedLabel(s: Float): String {
+    val snapped = Math.round(s / SPEED_STEP) * SPEED_STEP
+    return java.lang.String.format(java.util.Locale.US, "%.2f", snapped).trimEnd('0').trimEnd('.') + "×"
+}
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -85,7 +96,6 @@ fun SettingsScreen(vm: AppViewModel, onGuide: () -> Unit, onKeys: () -> Unit) {
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    SelectChip(stringResource(R.string.lang_system), currentLang.isEmpty()) { vm.setLanguage("") }
                     Languages.supported.forEach { tag ->
                         SelectChip(Languages.nativeNames.getValue(tag), currentLang == tag) { vm.setLanguage(tag) }
                     }
@@ -94,12 +104,31 @@ fun SettingsScreen(vm: AppViewModel, onGuide: () -> Unit, onKeys: () -> Unit) {
 
             SmartCard {
                 Text(stringResource(R.string.set_tts_speed), style = MaterialTheme.typography.titleMedium, color = AppTheme.colors.gold)
-                FlowRow(
-                    Modifier.padding(top = 10.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                ) {
-                    SPEEDS.forEach { s -> SelectChip(speedLabel(s), st.ttsSpeed == s) { vm.setSpeed(s) } }
+                // Slider moves in 0.25x steps; the speed is applied when the finger lifts so reading
+                // is not restarted on every tick.
+                var sliding by remember { mutableFloatStateOf(st.ttsSpeed) }
+                LaunchedEffect(st.ttsSpeed) { sliding = st.ttsSpeed }
+                Row(Modifier.padding(top = 6.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Slider(
+                        value = sliding,
+                        onValueChange = { sliding = it },
+                        onValueChangeFinished = { vm.setSpeed(sliding) },
+                        valueRange = MIN_SPEED..MAX_SPEED,
+                        steps = ((MAX_SPEED - MIN_SPEED) / SPEED_STEP).toInt() - 1,
+                        modifier = Modifier.weight(1f),
+                        colors = SliderDefaults.colors(
+                            thumbColor = AppTheme.colors.gold,
+                            activeTrackColor = AppTheme.colors.gold,
+                            inactiveTrackColor = AppTheme.colors.outline,
+                            activeTickColor = Navy.copy(alpha = 0.55f),
+                            inactiveTickColor = AppTheme.colors.gold.copy(alpha = 0.45f),
+                        ),
+                    )
+                    Spacer(Modifier.width(12.dp))
+                    Text(
+                        speedLabel(sliding), modifier = Modifier.width(52.dp),
+                        style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface,
+                    )
                 }
             }
 
@@ -110,28 +139,11 @@ fun SettingsScreen(vm: AppViewModel, onGuide: () -> Unit, onKeys: () -> Unit) {
                     Column(Modifier.weight(1f)) {
                         Text(stringResource(R.string.set_keys), style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface)
                         Text(
-                            stringResource(R.string.set_keys_count, st.keys.size.toString()) + " · " + st.model,
+                            stringResource(R.string.set_keys_count, st.keys.size.toString()),
                             style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                     }
                     Ico(R.drawable.ic_chevron, tint = MaterialTheme.colorScheme.onSurfaceVariant)
-                }
-            }
-
-            SmartCard {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Column(Modifier.weight(1f)) {
-                        Text(stringResource(R.string.set_online), style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface)
-                        Text(
-                            stringResource(R.string.set_online_desc),
-                            style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
-                    }
-                    Spacer(Modifier.width(12.dp))
-                    Switch(
-                        checked = st.online, onCheckedChange = { vm.setOnline(it) },
-                        colors = SwitchDefaults.colors(checkedThumbColor = Navy, checkedTrackColor = AppTheme.colors.gold),
-                    )
                 }
             }
 

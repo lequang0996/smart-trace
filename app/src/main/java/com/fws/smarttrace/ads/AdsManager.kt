@@ -48,7 +48,10 @@ object AdsManager {
         if (!initialized.compareAndSet(false, true)) return
         val app = context.applicationContext
         Thread {
-            MobileAds.initialize(app) { _ready.value = true }
+            MobileAds.initialize(app) {
+                _ready.value = true
+                AppOpenAds.load(app)
+            }
         }.start()
     }
 

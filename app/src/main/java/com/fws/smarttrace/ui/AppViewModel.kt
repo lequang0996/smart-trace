@@ -49,7 +49,7 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     private val _settings = MutableStateFlow(
         SettingsState(
             themeMode = prefs.themeMode, ttsSpeed = prefs.ttsSpeed, useGemini = prefs.useGemini,
-            consent = prefs.geminiConsent, online = prefs.onlineCheck, model = prefs.geminiModel,
+            consent = prefs.geminiConsent, online = true, model = prefs.geminiModel,
             onboarded = prefs.onboarded, keys = emptyList(),
         )
     )
@@ -145,11 +145,6 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     fun setConsent(v: Boolean) {
         prefs.geminiConsent = v
         _settings.update { it.copy(consent = v) }
-    }
-
-    fun setOnline(v: Boolean) {
-        prefs.onlineCheck = v
-        _settings.update { it.copy(online = v) }
     }
 
     fun setModel(m: String) {

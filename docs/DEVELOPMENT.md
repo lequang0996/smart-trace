@@ -14,7 +14,7 @@ Kotlin · Jetpack Compose (Material 3) · AppCompat per-app language · `minSdk 
 | Scoring | `verify/RiskEngine.kt` — rule-based, never claims "genuine" |
 | TTS | `TextToSpeech`, default 2×, up to 4× (some engines cap the rate), paragraph highlight |
 | Updates | Play In-App Update, **Flexible** (`InAppUpdate.kt`) |
-| Ads | AdMob adaptive banners (history + settings only) + UMP consent + "Ad privacy choices" |
+| Ads | AdMob App Open ad (cold start + returning to the app) + adaptive banners (pinned on Scan, inline in History / Settings) + UMP consent + "Ad privacy choices" |
 | Storage | SQLite history + private JPEG thumbnails. No Room/KSP, no network DB |
 | Icons | All hand-drawn vectors in `res/drawable/ic_*.xml` (no icon library) |
 
@@ -40,13 +40,13 @@ JDK 17 is required. The CI workflow uses `gradle/actions/setup-gradle` so no wra
    keytool -genkeypair -v -keystore release.jks -alias smarttrace -keyalg RSA -keysize 2048 -validity 10000
    base64 -w0 release.jks     # paste into KEYSTORE_BASE64
    ```
-   Secrets: `KEYSTORE_BASE64`, `KEYSTORE_PASSWORD`, `KEY_ALIAS`, `KEY_PASSWORD`, `ADMOB_APP_ID`, `ADMOB_BANNER_ID`.
+   Secrets: `KEYSTORE_BASE64`, `KEYSTORE_PASSWORD`, `KEY_ALIAS`, `KEY_PASSWORD`, `ADMOB_APP_ID`, `ADMOB_BANNER_ID`, `ADMOB_APP_OPEN_ID`.
    Without them CI still builds + lints the debug APK. Push a tag `v1.0.0` to publish a GitHub Release with APK + AAB.
 4. Keep the keystore safe. Enrol in **Play App Signing** when you upload the first AAB.
 
 ## AdMob
 Default ids are Google's **test** ids (debug and release) so nothing real is shown by accident.
-Put your real ids in the secrets above (or `-PADMOB_APP_ID=… -PADMOB_BANNER_ID=…`). Create the consent message in
+Put your real ids in the secrets above (or `-PADMOB_APP_ID=… -PADMOB_BANNER_ID=… -PADMOB_APP_OPEN_ID=…`). Create the consent message in
 *AdMob → Privacy & messaging* (GDPR + US states) so the UMP form appears.
 
 ## Play Console checklist

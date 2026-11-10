@@ -20,10 +20,19 @@ object Languages {
         "vi" to "Tiếng Việt",
     )
 
-    /** "" means "follow the system". */
+    /** The language tag in use. English is the default; the app never follows the system language. */
     fun currentTag(): String {
         val l = AppCompatDelegate.getApplicationLocales()
-        return if (l.isEmpty) "" else l.toLanguageTags().substringBefore(',')
+        if (l.isEmpty) return "en"
+        val tag = l.toLanguageTags().substringBefore(',')
+        return supported.firstOrNull { it.equals(tag, true) }
+            ?: supported.firstOrNull { it.substringBefore('-') == tag.substringBefore('-') }
+            ?: "en"
+    }
+
+    /** First launch (or after an upgrade from "system default"): pin the UI language to English. */
+    fun ensureDefault() {
+        if (AppCompatDelegate.getApplicationLocales().isEmpty) setOverride("en")
     }
 
     fun setOverride(tag: String) {
@@ -36,12 +45,15 @@ object Languages {
     fun effectiveLocale(): Locale {
         val o = AppCompatDelegate.getApplicationLocales()
         if (!o.isEmpty) o.get(0)?.let { return it }
-        val sys = Locale.getDefault()
-        return if (supported.any { it.substringBefore('-') == sys.language }) sys else Locale.ENGLISH
+        return Locale.ENGLISH
     }
 
     fun isVietnamese(): Boolean = effectiveLocale().language == "vi"
 
     /** English language name, used inside the Gemini prompt. */
-    fun promptLanguage(): String = effectiveLocale().getDisplayLanguage(Locale.ENGLISH).ifBlank { "English" }
+    fun promptLanguage(): String {
+        val l = effectiveLocale()
+        if (l.language == "zh") return "Simplified Chinese"
+        return l.getDisplayLanguage(Locale.ENGLISH).ifBlank { "English" }
+    }
 }

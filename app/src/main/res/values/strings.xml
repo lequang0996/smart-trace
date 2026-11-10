@@ -12,11 +12,11 @@
     <string name="mode_offline">Offline</string>
     <string name="mode_gemini">Gemini AI</string>
     <string name="mode_hint_offline">Runs on your phone. Your photo is not uploaded.</string>
-    <string name="mode_hint_gemini">Uses your own Gemini API key. The photo is sent to Google for analysis.</string>
+    <string name="mode_hint_gemini">Gemini has vision models that read data, analyze images and translate better than offline mode.</string>
     <string name="need_key">Add a Gemini API key to use Gemini mode.</string>
     <string name="btn_add_key">Add key</string>
     <string name="tips_title">Tips for a good photo</string>
-    <string name="tips_body">• Fill the frame with the label.\n• Avoid glare and shadows.\n• Photograph barcodes and QR codes close-up, separately.\n• Take one photo for each face of the pack.</string>
+    <string name="tips_body">• Fill the frame with the label.\n• Avoid glare and shadows.\n• Photograph barcodes and QR codes close-up, separately.</string>
     <string name="stage_prepare">Preparing the image…</string>
     <string name="stage_code">Looking for barcodes and QR codes…</string>
     <string name="stage_read">Reading label text on your phone…</string>
@@ -40,8 +40,6 @@
     <string name="verdict_desc_insufficient">Too little readable information. Try a clearer, closer photo.</string>
     <string name="score_label">Consistency score %1$s/100</string>
     <string name="disclaimer">For reference only. A photo cannot prove a product is genuine. Confirm with the manufacturer or an authorized seller.</string>
-    <string name="src_offline">Analyzed on your phone</string>
-    <string name="src_gemini">Analyzed with Gemini (%1$s)</string>
     <string name="top_issues">Points to check</string>
     <string name="sec_codes">Barcodes &amp; QR codes</string>
     <string name="code_source_scan">Scanned</string>
@@ -108,10 +106,7 @@
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
     <string name="set_language">Language</string>
-    <string name="lang_system">System default</string>
     <string name="set_tts_speed">Reading speed (up to 4×)</string>
-    <string name="set_online">Check barcodes online</string>
-    <string name="set_online_desc">Only the barcode number is sent to open product databases.</string>
     <string name="set_keys">Gemini API keys</string>
     <string name="set_keys_count">%1$s key(s) saved</string>
     <string name="set_model">Model</string>

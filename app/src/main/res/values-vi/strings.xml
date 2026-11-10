@@ -11,11 +11,11 @@
     <string name="mode_offline">Ngoại tuyến</string>
     <string name="mode_gemini">Gemini AI</string>
     <string name="mode_hint_offline">Chạy ngay trên điện thoại. Ảnh của bạn không bị tải lên.</string>
-    <string name="mode_hint_gemini">Dùng khóa Gemini API của bạn. Ảnh được gửi tới Google để phân tích.</string>
+    <string name="mode_hint_gemini">Gemini có mô hình thị giác, đọc dữ liệu, phân tích ảnh và dịch tốt hơn chế độ ngoại tuyến.</string>
     <string name="need_key">Hãy thêm khóa Gemini API để dùng chế độ Gemini.</string>
     <string name="btn_add_key">Thêm khóa</string>
     <string name="tips_title">Mẹo chụp ảnh tốt</string>
-    <string name="tips_body">• Chụp sao cho nhãn chiếm gần hết khung hình.\n• Tránh chói sáng và bóng đổ.\n• Chụp riêng mã vạch, mã QR ở cự ly gần.\n• Mỗi mặt của bao bì chụp một ảnh.</string>
+    <string name="tips_body">• Chụp sao cho nhãn chiếm gần hết khung hình.\n• Tránh chói sáng và bóng đổ.\n• Chụp riêng mã vạch, mã QR ở cự ly gần.</string>
     <string name="stage_prepare">Đang chuẩn bị ảnh…</string>
     <string name="stage_code">Đang tìm mã vạch và mã QR…</string>
     <string name="stage_read">Đang đọc chữ trên nhãn ngay trên máy…</string>
@@ -39,8 +39,6 @@
     <string name="verdict_desc_insufficient">Đọc được quá ít thông tin. Hãy thử ảnh rõ và gần hơn.</string>
     <string name="score_label">Điểm nhất quán %1$s/100</string>
     <string name="disclaimer">Chỉ mang tính tham khảo. Một bức ảnh không thể chứng minh hàng thật. Hãy xác nhận với nhà sản xuất hoặc đại lý ủy quyền.</string>
-    <string name="src_offline">Phân tích ngay trên máy</string>
-    <string name="src_gemini">Phân tích bằng Gemini (%1$s)</string>
     <string name="top_issues">Điểm cần kiểm tra</string>
     <string name="sec_codes">Mã vạch &amp; mã QR</string>
     <string name="code_source_scan">Đã quét</string>
@@ -107,10 +105,7 @@
     <string name="theme_light">Sáng</string>
     <string name="theme_dark">Tối</string>
     <string name="set_language">Ngôn ngữ</string>
-    <string name="lang_system">Theo hệ thống</string>
     <string name="set_tts_speed">Tốc độ đọc (tối đa 4×)</string>
-    <string name="set_online">Đối chiếu mã vạch trực tuyến</string>
-    <string name="set_online_desc">Chỉ số mã vạch được gửi tới các cơ sở dữ liệu sản phẩm mở.</string>
     <string name="set_keys">Khóa Gemini API</string>
     <string name="set_keys_count">Đã lưu %1$s khóa</string>
     <string name="set_model">Mô hình</string>

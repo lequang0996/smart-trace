@@ -17,6 +17,7 @@ import androidx.compose.runtime.setValue
 import androidx.core.content.FileProvider
 import androidx.core.content.IntentCompat
 import com.fws.smarttrace.ads.AdsManager
+import com.fws.smarttrace.ads.AppOpenAds
 import com.fws.smarttrace.core.Prefs
 import com.fws.smarttrace.ui.AppRoot
 import com.fws.smarttrace.ui.AppViewModel
@@ -53,7 +54,10 @@ class MainActivity : AppCompatActivity() {
                 AppRoot(
                     vm = vm,
                     onCamera = ::launchCamera,
-                    onGallery = { pickImage.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)) },
+                    onGallery = {
+                        AppOpenAds.suppressNext()
+                        pickImage.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                    },
                     updateReady = updateReady,
                     onRestart = { update.completeUpdate() },
                 )
@@ -64,6 +68,16 @@ class MainActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         handleShare(intent)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        AppOpenAds.onStart(this, Prefs(this).onboarded)
+    }
+
+    override fun onStop() {
+        AppOpenAds.onStop(this)
+        super.onStop()
     }
 
     override fun onResume() {
@@ -90,6 +104,7 @@ class MainActivity : AppCompatActivity() {
         Prefs(this).pendingCameraPath = file.absolutePath
         val uri = FileProvider.getUriForFile(this, "$packageName.fileprovider", file)
         try {
+            AppOpenAds.suppressNext()
             takePicture.launch(uri)
         } catch (e: ActivityNotFoundException) {
             Toast.makeText(this, getString(R.string.err_generic, "camera"), Toast.LENGTH_SHORT).show()

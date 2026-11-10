@@ -11,11 +11,11 @@
     <string name="mode_offline">오프라인</string>
     <string name="mode_gemini">Gemini AI</string>
     <string name="mode_hint_offline">휴대폰에서 처리됩니다. 사진은 업로드되지 않습니다.</string>
-    <string name="mode_hint_gemini">내 Gemini API 키를 사용합니다. 사진이 분석을 위해 Google로 전송됩니다.</string>
+    <string name="mode_hint_gemini">Gemini에는 비전 모델이 있어 오프라인 모드보다 데이터 읽기, 이미지 분석, 번역을 더 잘합니다.</string>
     <string name="need_key">Gemini 모드를 사용하려면 Gemini API 키를 추가하세요.</string>
     <string name="btn_add_key">키 추가</string>
     <string name="tips_title">좋은 사진을 찍는 요령</string>
-    <string name="tips_body">• 라벨이 화면에 가득 차도록 찍으세요.\n• 반사와 그림자를 피하세요.\n• 바코드와 QR 코드는 가까이서 따로 찍으세요.\n• 포장의 각 면마다 한 장씩 찍으세요.</string>
+    <string name="tips_body">• 라벨이 화면에 가득 차도록 찍으세요.\n• 반사와 그림자를 피하세요.\n• 바코드와 QR 코드는 가까이서 따로 찍으세요.</string>
     <string name="stage_prepare">이미지 준비 중…</string>
     <string name="stage_code">바코드와 QR 코드를 찾는 중…</string>
     <string name="stage_read">휴대폰에서 라벨 텍스트를 읽는 중…</string>
@@ -39,8 +39,6 @@
     <string name="verdict_desc_insufficient">읽을 수 있는 정보가 너무 적습니다. 더 선명하고 가까운 사진을 시도하세요.</string>
     <string name="score_label">일관성 점수 %1$s/100</string>
     <string name="disclaimer">참고용입니다. 사진만으로 정품임을 증명할 수 없습니다. 제조사나 공식 판매처에 확인하세요.</string>
-    <string name="src_offline">휴대폰에서 분석됨</string>
-    <string name="src_gemini">Gemini로 분석됨 (%1$s)</string>
     <string name="top_issues">확인할 점</string>
     <string name="sec_codes">바코드 및 QR 코드</string>
     <string name="code_source_scan">스캔됨</string>
@@ -107,10 +105,7 @@
     <string name="theme_light">라이트</string>
     <string name="theme_dark">다크</string>
     <string name="set_language">언어</string>
-    <string name="lang_system">시스템 기본값</string>
     <string name="set_tts_speed">읽기 속도 (최대 4×)</string>
-    <string name="set_online">바코드 온라인 확인</string>
-    <string name="set_online_desc">개방형 제품 데이터베이스에는 바코드 번호만 전송됩니다.</string>
     <string name="set_keys">Gemini API 키</string>
     <string name="set_keys_count">키 %1$s개 저장됨</string>
     <string name="set_model">모델</string>
