@@ -18,6 +18,7 @@ import androidx.core.content.FileProvider
 import androidx.core.content.IntentCompat
 import com.fws.smarttrace.ads.AdsManager
 import com.fws.smarttrace.ads.AppOpenAds
+import com.fws.smarttrace.core.Languages
 import com.fws.smarttrace.core.Prefs
 import com.fws.smarttrace.ui.AppRoot
 import com.fws.smarttrace.ui.AppViewModel
@@ -44,6 +45,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Must run once an AppCompat activity exists: from Application.onCreate it silently does nothing on Android 13+.
+        Languages.ensureDefault()
         enableEdgeToEdge()
         update = InAppUpdate(this) { updateReady = true }
         AdsManager.start(this)

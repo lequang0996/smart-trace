@@ -30,7 +30,10 @@ object Languages {
             ?: "en"
     }
 
-    /** First launch (or after an upgrade from "system default"): pin the UI language to English. */
+    /**
+     * First launch (or after an upgrade from "system default"): pin the UI language to English.
+     * Call from an AppCompatActivity (Android 13+ needs an active delegate to reach the system LocaleManager).
+     */
     fun ensureDefault() {
         if (AppCompatDelegate.getApplicationLocales().isEmpty) setOverride("en")
     }
