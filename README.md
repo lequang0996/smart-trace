@@ -32,7 +32,7 @@ Nhiều sản phẩm (gạch ốp lát, keo dán gạch, xi măng, hàng nhập 
 • Pháp lý & chứng nhận: hạn dùng, tiêu chuẩn ghi trên nhãn, nhãn phụ tiếng Việt (khi dùng giao diện tiếng Việt).
 
 MÃ VẠCH VÀ MÃ QR
-Nếu trong ảnh có mã vạch hoặc QR, ứng dụng kiểm tra chữ số kiểm tra GS1, tiền tố quốc gia, tra cứu sản phẩm trong các cơ sở dữ liệu công khai (Open Food Facts, Open Beauty Facts, Open Products Facts, UPCitemdb) rồi so với chữ trên bao bì. Với mã QR chứa liên kết, ứng dụng chỉ hiển thị tên miền và cảnh báo liên kết rút gọn, không mã hóa hoặc giả mạo; ứng dụng không tự mở liên kết.
+Nếu trong ảnh có mã vạch hoặc QR, ứng dụng kiểm tra chữ số kiểm tra GS1, tiền tố quốc gia, và có nút mở trang Verified by GS1 để tra doanh nghiệp được cấp mã. Với mã QR chứa liên kết, ứng dụng chỉ hiển thị tên miền và cảnh báo liên kết rút gọn, không mã hóa hoặc giả mạo; ứng dụng không tự mở liên kết.
 
 HAI CHẾ ĐỘ
 • Ngoại tuyến: xử lý hoàn toàn trên máy, ảnh không bị tải lên.
@@ -51,7 +51,7 @@ Thiết kế tông xanh navy và vàng ánh kim, chế độ sáng/tối/theo h�
 English · 简体中文 · Español · Português · Русский · 日本語 · 한국어 · Tiếng Việt
 
 QUYỀN RIÊNG TƯ
-Không cần tài khoản. Không xin quyền camera, vị trí hay danh bạ. Lịch sử nằm trên máy bạn. Khi bật “Đối chiếu mã vạch trực tuyến”, chỉ dãy số mã vạch được gửi tới cơ sở dữ liệu sản phẩm mở. Ứng dụng có quảng cáo của Google AdMob và biểu mẫu đồng ý khi pháp luật yêu cầu.
+Không cần tài khoản. Không xin quyền camera, vị trí hay danh bạ. Lịch sử nằm trên máy bạn. Ứng dụng không tự gửi số mã vạch đi đâu; chỉ khi bạn bấm “Tra cứu trên GS1” thì trình duyệt mới mở trang của GS1. Ứng dụng có quảng cáo của Google AdMob và biểu mẫu đồng ý khi pháp luật yêu cầu.
 
 LƯU Ý QUAN TRỌNG
 Kết quả chỉ mang tính tham khảo. Một bức ảnh không thể chứng minh sản phẩm là hàng thật; việc “không tìm thấy trong cơ sở dữ liệu” cũng không có nghĩa là hàng giả. Hãy xác nhận với nhà sản xuất hoặc đại lý ủy quyền trước khi quyết định mua bán hay sử dụng. Ứng dụng độc lập, không liên kết với bất kỳ thương hiệu hay cơ quan nhà nước nào.
@@ -83,7 +83,7 @@ FIVE CLEAR TABS
 • Legal & certificates: expiry, standards printed on the label, Vietnamese sub-label check (when the app is set to Vietnamese).
 
 BARCODES AND QR CODES
-If a barcode or QR is visible, the app validates the GS1 check digit and country prefix, looks the product up in public databases (Open Food Facts, Open Beauty Facts, Open Products Facts, UPCitemdb) and compares it with the text on the pack. For QR codes with links it only shows the domain and warns about shortened, unencrypted or look-alike links; it never opens a link by itself.
+If a barcode or QR is visible, the app validates the GS1 check digit and country prefix, and offers a button that opens Verified by GS1 to see which company the code is licensed to. For QR codes with links it only shows the domain and warns about shortened, unencrypted or look-alike links; it never opens a link by itself.
 
 TWO MODES
 • Offline: everything is processed on your phone and the photo is not uploaded.
@@ -102,7 +102,7 @@ Navy and gold, light/dark/system themes and a built-in user guide.
 English · 简体中文 · Español · Português · Русский · 日本語 · 한국어 · Tiếng Việt
 
 PRIVACY
-No account. No camera, location or contacts permission. History stays on your device. With “Check barcodes online” on, only the barcode digits are sent to open product databases. The app shows Google AdMob ads and a consent form where required by law.
+No account. No camera, location or contacts permission. History stays on your device. The app never sends barcode digits by itself; only when you tap “Verify on GS1” does your browser open the GS1 page. The app shows Google AdMob ads and a consent form where required by law.
 
 IMPORTANT
 Results are for reference only. A photo cannot prove a product is genuine, and “not found in a database” does not mean fake. Confirm with the manufacturer or an authorized seller before buying or using a product. The app is independent and not affiliated with any brand or authority.

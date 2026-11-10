@@ -47,7 +47,7 @@
 
   <p>SmartTrace (“the app”) helps you read product labels and barcodes and check whether the label is consistent. This policy explains what information the app handles, what leaves your device, and the choices you have. FWs (“we”, “us”) do not run any server for this app and do not require an account.</p>
 
-  <div class="note"><strong>In short:</strong> photos and scan history stay on your phone. Data leaves your phone only if you (1) use the optional Gemini mode with your own API key, (2) leave “Check barcodes online” on, or (3) see ads served by Google AdMob.</div>
+  <div class="note"><strong>In short:</strong> photos and scan history stay on your phone. Data leaves your phone only if you (1) use the optional Gemini mode with your own API key, (2) tap “Verify on GS1” (opens gs1.org in your browser), or (3) see ads served by Google AdMob.</div>
 
   <h3>1. Information processed on your device</h3>
   <ul>
@@ -59,7 +59,7 @@
 
   <h3>2. Optional features that send data</h3>
   <p><strong>a) Gemini AI mode (off by default).</strong> If you turn it on and agree to the prompt, the photo you select and a fixed instruction are sent directly from your phone to Google’s Gemini API (<code>generativelanguage.googleapis.com</code>) using <em>your own</em> API key. Google processes it under its own terms and privacy policy (see links below). We never receive the photo, the result, or your key.</p>
-  <p><strong>b) Online barcode check (on by default; can be switched off in Settings).</strong> If a barcode is found, only its digits are sent to public product databases — Open Food Facts, Open Beauty Facts, Open Products Facts and UPCitemdb — to look up the product. Like any web request, the database operators receive your IP address and the app’s user-agent. No photo and no label text is sent.</p>
+  <p><strong>b) Verify on GS1 (only when you tap the button).</strong> The app itself sends no barcode data anywhere. If you tap “Verify on GS1” next to a valid barcode, your browser opens the Verified by GS1 page of GS1 with that barcode number in the address. GS1 then handles the request under its own terms and privacy policy. No photo and no label text is sent.</p>
   <p><strong>c) QR links.</strong> The app shows the domain contained in a QR code and never opens or fetches it by itself. A link opens only when you tap “Open link”, in your browser.</p>
 
   <h3>3. API keys</h3>
@@ -76,7 +76,7 @@
     <tr><th>Data</th><th>Purpose</th><th>Leaves the device?</th></tr>
     <tr><td>Photos, label text, scan history, favorites</td><td>Show results and history</td><td>No (unless you use Gemini mode for that photo)</td></tr>
     <tr><td>Photo + instruction (Gemini mode)</td><td>Read the label with AI</td><td>Yes, to Google Gemini, with your key and consent</td></tr>
-    <tr><td>Barcode digits</td><td>Look up the product</td><td>Yes, to open product databases (can be disabled)</td></tr>
+    <tr><td>Barcode digits</td><td>Check the code on Verified by GS1</td><td>Only when you tap “Verify on GS1” (opens in your browser)</td></tr>
     <tr><td>Advertising ID, IP address, device/app info</td><td>Ads, measurement, fraud prevention</td><td>Yes, to Google AdMob</td></tr>
     <tr><td>API keys</td><td>Authenticate with Gemini</td><td>Only to Google’s API when you use Gemini mode</td></tr>
   </table>
@@ -104,8 +104,7 @@
     <li><a href="https://policies.google.com/privacy">Google Privacy Policy</a></li>
     <li><a href="https://policies.google.com/technologies/partner-sites">How Google uses information from sites or apps that use its services</a></li>
     <li><a href="https://ai.google.dev/gemini-api/terms">Gemini API Additional Terms of Service</a></li>
-    <li><a href="https://world.openfoodfacts.org/privacy">Open Food Facts privacy</a></li>
-    <li><a href="https://www.upcitemdb.com/privacy">UPCitemdb privacy</a></li>
+    <li><a href="https://www.gs1.org/services/verified-by-gs1">Verified by GS1</a></li>
   </ul>
 
   <h3>14. Contact</h3>
@@ -131,7 +130,7 @@
 
   <h3>2. Tính năng tùy chọn có gửi dữ liệu</h3>
   <p><strong>a) Chế độ Gemini AI (mặc định tắt).</strong> Nếu bạn bật và đồng ý hộp thoại xác nhận, ảnh bạn chọn cùng một chỉ dẫn cố định sẽ được gửi trực tiếp từ điện thoại tới Gemini API của Google (<code>generativelanguage.googleapis.com</code>) bằng khóa API <em>của chính bạn</em>. Google xử lý theo điều khoản và chính sách quyền riêng tư của Google (xem liên kết bên dưới). Chúng tôi không nhận ảnh, kết quả hay khóa của bạn.</p>
-  <p><strong>b) Đối chiếu mã vạch trực tuyến (mặc định bật; có thể tắt trong Cài đặt).</strong> Khi thấy mã vạch, chỉ dãy chữ số của mã được gửi tới các cơ sở dữ liệu sản phẩm công khai — Open Food Facts, Open Beauty Facts, Open Products Facts và UPCitemdb — để tra cứu. Như mọi yêu cầu web, đơn vị vận hành cơ sở dữ liệu sẽ nhận địa chỉ IP và user-agent của ứng dụng. Không có ảnh hay văn bản nhãn nào được gửi đi.</p>
+  <p><strong>b) Tra cứu trên GS1 (chỉ khi bạn bấm nút).</strong> Bản thân ứng dụng không gửi dữ liệu mã vạch đi đâu. Nếu bạn bấm “Tra cứu trên GS1” cạnh một mã vạch hợp lệ, trình duyệt sẽ mở trang Verified by GS1 của GS1 với số mã vạch trong địa chỉ. GS1 xử lý yêu cầu theo điều khoản và chính sách quyền riêng tư của họ. Không có ảnh hay văn bản nhãn nào được gửi đi.</p>
   <p><strong>c) Liên kết trong mã QR.</strong> Ứng dụng chỉ hiển thị tên miền trong mã QR và không tự mở hay tải liên kết. Liên kết chỉ mở khi bạn bấm “Mở liên kết”, bằng trình duyệt của bạn.</p>
 
   <h3>3. Khóa API</h3>
@@ -148,7 +147,7 @@
     <tr><th>Dữ liệu</th><th>Mục đích</th><th>Có rời khỏi thiết bị?</th></tr>
     <tr><td>Ảnh, văn bản nhãn, lịch sử quét, yêu thích</td><td>Hiển thị kết quả và lịch sử</td><td>Không (trừ khi dùng chế độ Gemini cho ảnh đó)</td></tr>
     <tr><td>Ảnh + chỉ dẫn (chế độ Gemini)</td><td>Đọc nhãn bằng AI</td><td>Có, tới Google Gemini, bằng khóa của bạn và khi bạn đồng ý</td></tr>
-    <tr><td>Chữ số mã vạch</td><td>Tra cứu sản phẩm</td><td>Có, tới cơ sở dữ liệu sản phẩm mở (có thể tắt)</td></tr>
+    <tr><td>Chữ số mã vạch</td><td>Kiểm tra mã trên Verified by GS1</td><td>Chỉ khi bạn bấm “Tra cứu trên GS1” (mở trong trình duyệt)</td></tr>
     <tr><td>Advertising ID, địa chỉ IP, thông tin thiết bị/ứng dụng</td><td>Quảng cáo, đo lường, chống gian lận</td><td>Có, tới Google AdMob</td></tr>
     <tr><td>Khóa API</td><td>Xác thực với Gemini</td><td>Chỉ tới API của Google khi dùng chế độ Gemini</td></tr>
   </table>
@@ -176,8 +175,7 @@
     <li><a href="https://policies.google.com/privacy">Chính sách quyền riêng tư của Google</a></li>
     <li><a href="https://policies.google.com/technologies/partner-sites">Cách Google sử dụng thông tin từ trang web hoặc ứng dụng dùng dịch vụ của Google</a></li>
     <li><a href="https://ai.google.dev/gemini-api/terms">Điều khoản bổ sung của Gemini API</a></li>
-    <li><a href="https://world.openfoodfacts.org/privacy">Quyền riêng tư của Open Food Facts</a></li>
-    <li><a href="https://www.upcitemdb.com/privacy">Quyền riêng tư của UPCitemdb</a></li>
+    <li><a href="https://www.gs1.org/services/verified-by-gs1">Verified by GS1</a></li>
   </ul>
 
   <h3>14. Liên hệ</h3>

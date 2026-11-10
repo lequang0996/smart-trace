@@ -129,12 +129,6 @@ object RiskEngine {
 
         // --- barcodes and QR codes ---
         if (codes.isEmpty()) add("NO_CODE", Severity.INFO)
-        val hayRaw = listOf(label.rawText, label.productName, label.brand, label.manufacturer).joinToString(" ")
-        val hay = TextUtil.fold(hayRaw)
-        val hayCompact = hay.replace(Regex("[^a-z0-9]"), "")
-        val hayTokens = TextUtil.tokens(hayRaw)
-        val canCompare = !tooLittle
-
         for (c in codes) {
             if (c.source == "ai") add("AI_BARCODE", Severity.INFO)
             val shown = c.gtin ?: c.value
@@ -153,44 +147,12 @@ object RiskEngine {
                 if (!valid) add("GTIN_BAD", Severity.BAD, shown)
                 else {
                     add("GTIN_OK", Severity.OK, shown)
+                    add("GS1_VERIFY", Severity.INFO, shown)
                     val iso = c.prefixIso
                     if (iso != null) {
                         val originIso = label.originIso.ifBlank { null } ?: Gtin.originToIso(label.origin)
                         if (originIso != null && originIso != iso) add("PREFIX_DIFF", Severity.INFO, label.origin, "iso:$iso")
                         else add("PREFIX", Severity.INFO, Gtin.prefix3(shown) ?: "", "iso:$iso")
-                    }
-                }
-            }
-
-            val lk = c.lookup ?: continue
-            when {
-                lk.error -> add("DB_OFFLINE", Severity.INFO)
-                !lk.found -> add("DB_NONE", Severity.INFO, lk.source)
-                else -> {
-                    add("DB_FOUND", Severity.OK, lk.source, listOf(lk.name, lk.brand).filter { it.isNotBlank() }.joinToString(" — ").take(100))
-                    if (!canCompare) continue
-                    val brand = lk.brand.split(',').first().trim()
-                    val nb = TextUtil.fold(brand).replace(Regex("[^a-z0-9]"), "")
-                    if (nb.length >= 2) {
-                        if (hayCompact.contains(nb)) add("DB_BRAND_OK", Severity.OK, brand)
-                        else add("DB_BRAND_MISS", Severity.WARN, brand)
-                    }
-                    val nameTokens = TextUtil.tokens(lk.name)
-                    if (nameTokens.size >= 2) {
-                        val pct = nameTokens.count { it in hayTokens || hayCompact.contains(it) } * 100 / nameTokens.size
-                        when {
-                            pct >= 60 -> add("DB_NAME_OK", Severity.OK, pct.toString())
-                            pct >= 30 -> add("DB_NAME_PART", Severity.INFO, pct.toString())
-                            else -> add("DB_NAME_DIFF", Severity.WARN, lk.name.take(80))
-                        }
-                    }
-                    QTY_RE.find(lk.quantity)?.let { q ->
-                        val want = toBase(q.groupValues[1], q.groupValues[2])
-                        if (want != null && want > 0) {
-                            val seen = QTY_RE.findAll(hayRaw).mapNotNull { toBase(it.groupValues[1], it.groupValues[2]) }.toList()
-                            if (seen.any { abs(it - want) / want <= 0.02 }) add("DB_QTY_OK", Severity.OK, lk.quantity)
-                            else if (seen.isNotEmpty()) add("DB_QTY_DIFF", Severity.WARN, lk.quantity)
-                        }
                     }
                 }
             }

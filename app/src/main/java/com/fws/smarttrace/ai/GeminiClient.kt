@@ -9,6 +9,7 @@ import com.fws.smarttrace.model.str
 import com.fws.smarttrace.model.strings
 import com.fws.smarttrace.vision.LabelParser
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.json.JSONObject
@@ -45,13 +46,26 @@ Translation rules (the app user reads {LANG}):
 - If something is unreadable, leave it empty instead of guessing.
 - "suspiciousSigns": up to 3 clearly visible packaging problems (misspelled brand, mismatched numbers, inconsistent print), written in {LANG}; empty list if none."""
 
-    data class Outcome(val label: ExtractedLabel)
+    data class Outcome(val label: ExtractedLabel, val model: String)
 
-    suspend fun extract(jpeg: ByteArray, keys: List<String>, model: String, language: String): Outcome =
+    /** Tried in this order: the default first, the second one only when the first cannot be used. */
+    val MODELS = listOf("gemini-3.5-flash-lite", "gemini-3.1-flash-lite")
+    private const val MAX_ATTEMPTS = 3
+    private const val RETRY_DELAY_MS = 5_000L
+
+    private sealed interface Attempt {
+        class Ok(val label: ExtractedLabel) : Attempt
+        /** [switchModel]: retrying the same model is pointless (quota used up, model unavailable, bad request). */
+        class Failed(val message: String, val switchModel: Boolean) : Attempt
+    }
+
+    /**
+     * Up to [MAX_ATTEMPTS] tries per model, [RETRY_DELAY_MS] apart. When the quota of a model is used up on every key
+     * the next model is used straight away. When both models fail this throws, and the caller falls back to offline.
+     */
+    suspend fun extract(jpeg: ByteArray, keys: List<String>, language: String): Outcome =
         withContext(Dispatchers.IO) {
             if (keys.isEmpty()) throw GeminiException("no key")
-            val safeModel = model.filter { it.isLetterOrDigit() || it == '.' || it == '-' || it == '_' }
-            if (safeModel.isEmpty()) throw GeminiException("bad model")
             val body = JSONObject()
                 .put("contents", JSONArray().put(JSONObject()
                     .put("role", "user")
@@ -63,33 +77,61 @@ Translation rules (the app user reads {LANG}):
                 .put("generationConfig", JSONObject().put("temperature", 0.1).put("responseMimeType", "application/json"))
                 .toString()
 
-            val now = System.currentTimeMillis()
-            val (ready, cooling) = keys.partition { (cooldownUntil[it] ?: 0L) <= now }
             var last = "unknown error"
-            for (key in ready + cooling) {
-                val (code, text) = try {
-                    post(safeModel, key, body)
-                } catch (e: Exception) {
-                    last = e.javaClass.simpleName
-                    cooldownUntil[key] = System.currentTimeMillis() + 10_000
-                    continue
-                }
-                if (code in 200..299) {
-                    return@withContext Outcome(parse(text))
-                }
-                last = "HTTP $code ${errorMessage(text)}".trim()
-                when (code) {
-                    429 -> cooldownUntil[key] = System.currentTimeMillis() + 60_000
-                    401, 403 -> cooldownUntil[key] = System.currentTimeMillis() + 600_000
-                    400 -> if (text.contains("API key", true) || text.contains("API_KEY", true)) {
-                        cooldownUntil[key] = System.currentTimeMillis() + 600_000
-                    } else throw GeminiException(last)
-                    404 -> throw GeminiException(last)
-                    else -> cooldownUntil[key] = System.currentTimeMillis() + 10_000
+            for ((index, model) in MODELS.withIndex()) {
+                val lastModel = index == MODELS.lastIndex
+                for (attempt in 1..MAX_ATTEMPTS) {
+                    when (val r = tryModel(model, keys, body, includeCooling = lastModel)) {
+                        is Attempt.Ok -> return@withContext Outcome(r.label, model)
+                        is Attempt.Failed -> {
+                            last = r.message
+                            if (r.switchModel) break
+                            if (attempt < MAX_ATTEMPTS) delay(RETRY_DELAY_MS)
+                        }
+                    }
                 }
             }
             throw GeminiException(last)
         }
+
+    /** One pass over the keys for one model. */
+    private fun tryModel(model: String, keys: List<String>, body: String, includeCooling: Boolean): Attempt {
+        val now = System.currentTimeMillis()
+        val (ready, cooling) = keys.partition { (cooldownUntil["$model|$it"] ?: 0L) <= now }
+        val candidates = if (includeCooling) ready + cooling else ready
+        if (candidates.isEmpty()) return Attempt.Failed("HTTP 429 quota", switchModel = true)
+
+        var last = "unknown error"
+        var quotaOnly = true
+        for (key in candidates) {
+            val id = "$model|$key"
+            val (code, text) = try {
+                post(model, key, body)
+            } catch (e: Exception) {
+                last = e.javaClass.simpleName
+                quotaOnly = false
+                cooldownUntil[id] = System.currentTimeMillis() + 10_000
+                continue
+            }
+            if (code in 200..299) {
+                return try { Attempt.Ok(parse(text)) } catch (e: GeminiException) {
+                    Attempt.Failed(e.message ?: "bad response", switchModel = false)
+                }
+            }
+            last = "HTTP $code ${errorMessage(text)}".trim()
+            if (code != 429) quotaOnly = false
+            when (code) {
+                429 -> cooldownUntil[id] = System.currentTimeMillis() + 60_000
+                401, 403 -> cooldownUntil[id] = System.currentTimeMillis() + 600_000
+                400 -> if (text.contains("API key", true) || text.contains("API_KEY", true)) {
+                    cooldownUntil[id] = System.currentTimeMillis() + 600_000
+                } else return Attempt.Failed(last, switchModel = true)
+                404 -> return Attempt.Failed(last, switchModel = true)
+                else -> cooldownUntil[id] = System.currentTimeMillis() + 10_000
+            }
+        }
+        return Attempt.Failed(last, switchModel = quotaOnly)
+    }
 
     private fun post(model: String, key: String, body: String): Pair<Int, String> {
         val conn = URL("https://generativelanguage.googleapis.com/v1beta/models/$model:generateContent")

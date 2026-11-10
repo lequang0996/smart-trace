@@ -403,6 +403,19 @@ private fun CodeCard(c: CodeCheck) {
                 LabelValue("DB", lk.source)
             }
         }
+        val gtinToCheck = c.gtin
+        if (gtinToCheck != null && c.gtinValid == true) {
+            GhostButton(
+                stringResource(R.string.open_gs1), modifier = Modifier.padding(top = 12.dp).fillMaxWidth(), icon = R.drawable.ic_shield,
+            ) {
+                try {
+                    ctx.startActivity(
+                        Intent(Intent.ACTION_VIEW, Uri.parse("https://www.gs1.org/services/verified-by-gs1/results?gtin=" + Uri.encode(gtinToCheck)))
+                            .addCategory(Intent.CATEGORY_BROWSABLE)
+                    )
+                } catch (e: ActivityNotFoundException) { /* no browser installed */ }
+            }
+        }
         c.url?.let { u ->
             Text(u.host.ifBlank { u.url }, modifier = Modifier.padding(top = 8.dp), style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurface)
             if (u.url.startsWith("http://", true) || u.url.startsWith("https://", true)) {

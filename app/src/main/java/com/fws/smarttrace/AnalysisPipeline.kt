@@ -8,11 +8,9 @@ import com.fws.smarttrace.data.ScanFiles
 import com.fws.smarttrace.model.AnalysisMode
 import com.fws.smarttrace.model.CodeCheck
 import com.fws.smarttrace.model.ExtractedLabel
-import com.fws.smarttrace.model.LookupResult
 import com.fws.smarttrace.model.UrlInfo
 import com.fws.smarttrace.model.ScanResult
 import com.fws.smarttrace.verify.Gtin
-import com.fws.smarttrace.verify.ProductLookup
 import com.fws.smarttrace.verify.RiskEngine
 import com.fws.smarttrace.verify.UrlAnalyzer
 import com.fws.smarttrace.vision.BarcodeEngine
@@ -37,8 +35,6 @@ class AnalysisPipeline(private val ctx: Context) {
         uri: Uri,
         useAi: Boolean,
         keys: List<String>,
-        model: String,
-        online: Boolean,
         onStage: (Stage) -> Unit,
     ): ScanResult {
         onStage(Stage.PREPARE)
@@ -51,6 +47,7 @@ class AnalysisPipeline(private val ctx: Context) {
         var label: ExtractedLabel
         var mode = AnalysisMode.OFFLINE
         var aiFallback: String? = null
+        var usedModel = ""
         suspend fun offline(): ExtractedLabel {
             onStage(Stage.READ)
             val read = ocr.read(bmp)
@@ -60,7 +57,9 @@ class AnalysisPipeline(private val ctx: Context) {
         if (useAi) {
             onStage(Stage.AI)
             try {
-                label = GeminiClient.extract(ImageUtils.toJpeg(bmp), keys, model, Languages.promptLanguage()).label
+                val out = GeminiClient.extract(ImageUtils.toJpeg(bmp), keys, Languages.promptLanguage())
+                label = out.label
+                usedModel = out.model
                 mode = AnalysisMode.GEMINI
             } catch (e: Exception) {
                 aiFallback = (e.message ?: e.javaClass.simpleName).take(80)
@@ -72,10 +71,10 @@ class AnalysisPipeline(private val ctx: Context) {
 
         onStage(Stage.VERIFY)
         val codes = ArrayList<CodeCheck>()
-        for (s in scanned) codes += buildCode(s.value, s.format, "scan", s.isUrl, online)
+        for (s in scanned) codes += buildCode(s.value, s.format, "scan", s.isUrl)
         if (scanned.isEmpty()) {
             for (t in label.barcodeTexts.map { it.filter(Char::isDigit) }.filter { it.length in intArrayOf(8, 12, 13, 14) }.distinct().take(2)) {
-                codes += buildCode(t, "EAN/UPC", "ai", false, online)
+                codes += buildCode(t, "EAN/UPC", "ai", false)
             }
         }
 
@@ -87,7 +86,7 @@ class AnalysisPipeline(private val ctx: Context) {
             id = id,
             createdAt = System.currentTimeMillis(),
             mode = mode,
-            model = if (mode == AnalysisMode.GEMINI) model else "",
+            model = if (mode == AnalysisMode.GEMINI) usedModel else "",
             label = label,
             codes = codes,
             findings = risk.findings,
@@ -96,7 +95,7 @@ class AnalysisPipeline(private val ctx: Context) {
         )
     }
 
-    private suspend fun buildCode(value: String, format: String, source: String, isUrl: Boolean, online: Boolean): CodeCheck {
+    private suspend fun buildCode(value: String, format: String, source: String, isUrl: Boolean): CodeCheck {
         var gtin: String? = null
         var url: UrlInfo? = null
         val kind: String
@@ -113,14 +112,12 @@ class AnalysisPipeline(private val ctx: Context) {
         }
         var valid: Boolean? = null
         var iso: String? = null
-        var lookup: LookupResult? = null
         if (gtin != null) {
             valid = Gtin.isValid(gtin)
             if (valid) {
                 iso = Gtin.countryIso(gtin)
-                if (online) lookup = ProductLookup.lookup(gtin)
             }
         }
-        return CodeCheck(value, format, source, kind, gtin, valid, iso, lookup, url)
+        return CodeCheck(value, format, source, kind, gtin, valid, iso, null, url)
     }
 }

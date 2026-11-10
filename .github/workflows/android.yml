@@ -47,14 +47,6 @@ jobs:
           path: app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
 
-      - name: Upload lint report
-        if: always()
-        uses: actions/upload-artifact@v7
-        with:
-          name: lint-report
-          path: app/build/reports/lint-results-debug.html
-          if-no-files-found: ignore
-
       # ---- Signed release build (only when the signing secrets exist) ----
       - name: Decode keystore
         if: ${{ env.KEYSTORE_BASE64 != '' }}
@@ -71,13 +63,6 @@ jobs:
           ADMOB_BANNER_ID: ${{ secrets.ADMOB_BANNER_ID }}
           ADMOB_APP_OPEN_ID: ${{ secrets.ADMOB_APP_OPEN_ID }}
         run: gradle :app:assembleRelease :app:bundleRelease --stacktrace -PPRIVACY_URL="$PRIVACY_URL"
-
-      - name: Upload release APK
-        if: ${{ env.KEYSTORE_BASE64 != '' }}
-        uses: actions/upload-artifact@v7
-        with:
-          name: SmartTrace-release-apk
-          path: app/build/outputs/apk/release/*.apk
 
       - name: Upload release AAB (for Google Play)
         if: ${{ env.KEYSTORE_BASE64 != '' }}

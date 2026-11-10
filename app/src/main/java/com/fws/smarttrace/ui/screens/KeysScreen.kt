@@ -51,9 +51,6 @@ fun KeysScreen(vm: AppViewModel, onBack: () -> Unit) {
     val st by vm.settings.collectAsState()
     val saved by vm.keysSaved.collectAsState()
     var text by rememberSaveable { mutableStateOf("") }
-    var model by rememberSaveable { mutableStateOf(st.model) }
-    val latestModel = rememberUpdatedState(model)
-    DisposableEffect(Unit) { onDispose { vm.setModel(latestModel.value) } }
     LaunchedEffect(saved) { if (saved != null) { kotlinx.coroutines.delay(2500); vm.keysSavedShown() } }
 
     ScreenSurface {
@@ -105,17 +102,8 @@ fun KeysScreen(vm: AppViewModel, onBack: () -> Unit) {
                 }
 
                 SmartCard {
-                    Text(stringResource(R.string.set_model), style = MaterialTheme.typography.titleMedium, color = AppTheme.colors.gold)
-                    OutlinedTextField(
-                        value = model, onValueChange = { model = it },
-                        modifier = Modifier.fillMaxWidth().padding(top = 8.dp), singleLine = true,
-                        textStyle = TextStyle(fontFamily = FontFamily.Monospace),
-                    )
-                }
-
-                SmartCard {
                     Text(stringResource(R.string.keys_howto_title), style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.onSurface)
-                    val steps = listOf(R.string.keys_s1, R.string.keys_s2, R.string.keys_s3, R.string.keys_s4, R.string.keys_s5, R.string.keys_s6)
+                    val steps = listOf(R.string.keys_s1, R.string.keys_s2, R.string.keys_s3, R.string.keys_s5, R.string.keys_s6)
                     steps.forEachIndexed { i, res ->
                         Row(Modifier.padding(top = 12.dp), verticalAlignment = Alignment.Top) {
                             Text(

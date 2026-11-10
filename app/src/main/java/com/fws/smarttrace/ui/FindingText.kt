@@ -44,6 +44,7 @@ object FindingText {
         "AI_BARCODE" to Spec(R.string.fd_ai_barcode, Group.AUTH),
         "GTIN_OK" to Spec(R.string.fd_gtin_ok, Group.AUTH),
         "GTIN_BAD" to Spec(R.string.fd_gtin_bad, Group.AUTH),
+        "GS1_VERIFY" to Spec(R.string.fd_gs1_verify, Group.AUTH),
         "DB_FOUND" to Spec(R.string.fd_db_found, Group.AUTH),
         "DB_NONE" to Spec(R.string.fd_db_none, Group.AUTH),
         "DB_OFFLINE" to Spec(R.string.fd_db_offline, Group.AUTH),

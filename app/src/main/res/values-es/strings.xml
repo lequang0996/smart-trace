@@ -89,6 +89,7 @@
     <string name="tts_unavailable">No está instalada la voz de este idioma. Instálala en los ajustes de texto a voz del teléfono.</string>
     <string name="tts_reading">Leyendo ahora</string>
     <string name="delete_item">Eliminar</string>
+    <string name="open_gs1">Verificar en GS1</string>
     <string name="open_link">Abrir enlace</string>
     <string name="hist_title">Historial de escaneos</string>
     <string name="fav_title">Favoritos</string>
@@ -108,7 +109,6 @@
     <string name="set_tts_speed">Velocidad de lectura (hasta 4×)</string>
     <string name="set_keys">Claves de Gemini API</string>
     <string name="set_keys_count">%1$s clave(s) guardada(s)</string>
-    <string name="set_model">Modelo</string>
     <string name="set_guide">Guía de uso</string>
     <string name="set_privacy">Política de privacidad</string>
     <string name="set_ads_privacy">Opciones de privacidad de anuncios</string>
@@ -122,7 +122,6 @@
     <string name="keys_s1">Abre aistudio.google.com/apikey e inicia sesión con tu cuenta de Google.</string>
     <string name="keys_s2">Pulsa “Create API key” (Crear clave de API).</string>
     <string name="keys_s3">Si se solicita, elige o crea un proyecto de Google Cloud. El predeterminado sirve.</string>
-    <string name="keys_s4">Copia la clave. Suele empezar por “AIza”.</string>
     <string name="keys_s5">Vuelve aquí, pégala en el cuadro de arriba (una por línea) y pulsa Guardar claves.</string>
     <string name="keys_s6">Nunca compartas tu clave. Si se filtra, bórrala en AI Studio y crea otra.</string>
     <string name="keys_open_studio">Abrir Google AI Studio</string>
@@ -180,6 +179,7 @@
     <string name="fd_gtin_bad">Código %1$s: el dígito de control es INCORRECTO. Puede ser un error de impresión o falsificación.</string>
     <string name="fd_prefix">El prefijo GS1 %1$s está registrado en %2$s. No prueba dónde se fabricó.</string>
     <string name="fd_prefix_diff">La etiqueta indica origen %1$s, pero el prefijo del código pertenece a %2$s. Puede ser normal; verifícalo.</string>
+    <string name="fd_gs1_verify">Consulta el código %1$s en Verified by GS1 para saber a qué empresa está asignado. Que GS1 no tenga registro no significa por sí solo que el producto sea falso.</string>
     <string name="fd_db_found">%1$s registra este código: %2$s.</string>
     <string name="fd_db_none">No se encontró en %1$s. No significa que sea falso, solo que no está registrado.</string>
     <string name="fd_db_offline">No se pudo acceder a las bases de datos de productos.</string>

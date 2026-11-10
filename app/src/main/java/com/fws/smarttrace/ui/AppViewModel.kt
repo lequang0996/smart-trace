@@ -34,8 +34,6 @@ data class SettingsState(
     val ttsSpeed: Float,
     val useGemini: Boolean,
     val consent: Boolean,
-    val online: Boolean,
-    val model: String,
     val onboarded: Boolean,
     val keys: List<String>,
 )
@@ -49,7 +47,7 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     private val _settings = MutableStateFlow(
         SettingsState(
             themeMode = prefs.themeMode, ttsSpeed = prefs.ttsSpeed, useGemini = prefs.useGemini,
-            consent = prefs.geminiConsent, online = true, model = prefs.geminiModel,
+            consent = prefs.geminiConsent, 
             onboarded = prefs.onboarded, keys = emptyList(),
         )
     )
@@ -82,7 +80,7 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
                 val s = _settings.value
                 val useAi = s.useGemini && s.consent && s.keys.isNotEmpty()
                 val result = withContext(Dispatchers.Default) {
-                    pipeline.run(uri, useAi, s.keys, s.model, s.online) { st -> _scan.value = ScanState.Running(st) }
+                    pipeline.run(uri, useAi, s.keys) { st -> _scan.value = ScanState.Running(st) }
                 }
                 history.insert(result)
                 _opened.value = result
@@ -145,11 +143,6 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     fun setConsent(v: Boolean) {
         prefs.geminiConsent = v
         _settings.update { it.copy(consent = v) }
-    }
-
-    fun setModel(m: String) {
-        prefs.geminiModel = m.ifBlank { Prefs.DEFAULT_MODEL }
-        _settings.update { it.copy(model = prefs.geminiModel) }
     }
 
     fun finishOnboarding() {

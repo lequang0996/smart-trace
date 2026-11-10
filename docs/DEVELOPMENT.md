@@ -8,9 +8,9 @@ Kotlin · Jetpack Compose (Material 3) · AppCompat per-app language · `minSdk 
 | Offline text | ML Kit Text Recognition (Latin + Chinese, bundled models) with 4-orientation retry |
 | Codes | ML Kit Barcode Scanning (bundled) → GS1 check digit, country prefix, GS1 Digital Link, URL risk flags |
 | Visual hints | ML Kit Image Labeling (bundled), weak category hint only |
-| AI (optional) | Gemini REST `generateContent`, model `gemini-3.5-flash-lite` (editable in *Settings → Gemini API keys*) |
+| AI (optional) | Gemini REST `generateContent`, models `gemini-3.5-flash-lite` (default) then `gemini-3.1-flash-lite` (see `GeminiClient.MODELS`); 3 tries 5 s apart per model, then offline |
 | Keys | AES-256-GCM key in Android Keystore, masked display (first 3 … last 3), tried in order with cool-down on 429/403 |
-| Verification | Open Food Facts / Beauty / Products Facts, UPCitemdb trial (only the barcode digits are sent) |
+| Verification | GS1 check digit + prefix offline; "Verify on GS1" button opens gs1.org Verified by GS1 in the browser (no public API; free web use is limited to 30 queries/day) |
 | Scoring | `verify/RiskEngine.kt` — rule-based, never claims "genuine" |
 | TTS | `TextToSpeech`, default 2×, up to 4× (some engines cap the rate), paragraph highlight |
 | Updates | Play In-App Update, **Flexible** (`InAppUpdate.kt`) |
@@ -60,8 +60,8 @@ Put your real ids in the secrets above (or `-PADMOB_APP_ID=… -PADMOB_BANNER_ID
 
 ## Things to know
 - **Not compiled in the authoring environment** (no network). The first CI run is the real compile; send the log if anything fails.
-- Gemini model id/limits change over time — edit the model name in the app (*Settings → Gemini API keys → Model*) without a new release.
+- Gemini model ids/limits change over time — update `GeminiClient.MODELS` when Google retires a model.
 - Free Gemini quota is limited and Google's terms apply; keys belong to the user, never to the app.
 - Chinese OCR model adds a few MB to the APK. To slim it, switch to the unbundled model (needs Google Play services model download).
-- Open product databases are incomplete: "not found" is shown as *info*, never as a fake signal.
+- GS1 / registry data is incomplete: a missing record is never shown as a fake signal.
 - The Vietnamese sub-label rule (imported goods) is shown only when the UI language is Vietnamese. Have it reviewed against current Vietnamese labelling regulations before relying on it.

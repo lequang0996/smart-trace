@@ -89,6 +89,7 @@
     <string name="tts_unavailable">Голос для этого языка не установлен. Установите его в настройках синтеза речи телефона.</string>
     <string name="tts_reading">Сейчас читается</string>
     <string name="delete_item">Удалить</string>
+    <string name="open_gs1">Проверить в GS1</string>
     <string name="open_link">Открыть ссылку</string>
     <string name="hist_title">История сканирований</string>
     <string name="fav_title">Избранное</string>
@@ -108,7 +109,6 @@
     <string name="set_tts_speed">Скорость чтения (до 4×)</string>
     <string name="set_keys">Ключи Gemini API</string>
     <string name="set_keys_count">Сохранено ключей: %1$s</string>
-    <string name="set_model">Модель</string>
     <string name="set_guide">Руководство</string>
     <string name="set_privacy">Политика конфиденциальности</string>
     <string name="set_ads_privacy">Настройки конфиденциальности рекламы</string>
@@ -122,7 +122,6 @@
     <string name="keys_s1">Откройте aistudio.google.com/apikey и войдите в аккаунт Google.</string>
     <string name="keys_s2">Нажмите «Create API key» (создать ключ API).</string>
     <string name="keys_s3">Если спросят, выберите или создайте проект Google Cloud. Подойдёт проект по умолчанию.</string>
-    <string name="keys_s4">Скопируйте ключ. Обычно он начинается с «AIza».</string>
     <string name="keys_s5">Вернитесь сюда, вставьте ключ в поле выше (по одному в строке) и нажмите «Сохранить ключи».</string>
     <string name="keys_s6">Никому не передавайте ключ. При утечке удалите его в AI Studio и создайте новый.</string>
     <string name="keys_open_studio">Открыть Google AI Studio</string>
@@ -180,6 +179,7 @@
     <string name="fd_gtin_bad">Код %1$s: контрольная цифра НЕВЕРНА. Возможна ошибка печати или подделка.</string>
     <string name="fd_prefix">Префикс GS1 %1$s зарегистрирован в стране: %2$s. Это не доказывает место производства.</string>
     <string name="fd_prefix_diff">На этикетке происхождение: %1$s, а префикс штрихкода принадлежит: %2$s. Это может быть нормой; проверьте.</string>
+    <string name="fd_gs1_verify">Проверьте код %1$s в Verified by GS1, чтобы узнать, какой компании он выдан. Отсутствие записи в GS1 само по себе не означает, что товар поддельный.</string>
     <string name="fd_db_found">%1$s содержит этот код: %2$s.</string>
     <string name="fd_db_none">В %1$s не найдено. Это не значит, что товар поддельный, — он просто не внесён.</string>
     <string name="fd_db_offline">Не удалось связаться с базами данных товаров.</string>

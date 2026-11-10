@@ -89,6 +89,7 @@
     <string name="tts_unavailable">この言語の音声データが未インストールです。端末の音声合成設定からインストールしてください。</string>
     <string name="tts_reading">読み上げ中</string>
     <string name="delete_item">削除</string>
+    <string name="open_gs1">GS1 で確認</string>
     <string name="open_link">リンクを開く</string>
     <string name="hist_title">スキャン履歴</string>
     <string name="fav_title">お気に入り</string>
@@ -108,7 +109,6 @@
     <string name="set_tts_speed">読み上げ速度（最大 4×）</string>
     <string name="set_keys">Gemini API キー</string>
     <string name="set_keys_count">%1$s 件のキーを保存済み</string>
-    <string name="set_model">モデル</string>
     <string name="set_guide">使い方ガイド</string>
     <string name="set_privacy">プライバシーポリシー</string>
     <string name="set_ads_privacy">広告のプライバシー設定</string>
@@ -122,7 +122,6 @@
     <string name="keys_s1">aistudio.google.com/apikey を開き、Google アカウントでログインします。</string>
     <string name="keys_s2">「Create API key」（API キーを作成）をタップします。</string>
     <string name="keys_s3">求められたら Google Cloud プロジェクトを選択または作成します。既定のもので構いません。</string>
-    <string name="keys_s4">キーをコピーします。通常「AIza」で始まります。</string>
     <string name="keys_s5">ここに戻り、上の欄に貼り付け（1行に1つ）、「キーを保存」をタップします。</string>
     <string name="keys_s6">キーは他人に教えないでください。漏れた場合は AI Studio で削除し、新しく作成します。</string>
     <string name="keys_open_studio">Google AI Studio を開く</string>
@@ -180,6 +179,7 @@
     <string name="fd_gtin_bad">コード %1$s：チェックデジットが誤りです。印刷ミスまたは偽造の可能性があります。</string>
     <string name="fd_prefix">GS1 プレフィックス %1$s は %2$s で登録されています。製造地の証明にはなりません。</string>
     <string name="fd_prefix_diff">ラベルの原産地は %1$s ですが、バーコードのプレフィックスは %2$s のものです。通常もあり得ますが確認してください。</string>
+    <string name="fd_gs1_verify">Verified by GS1 でコード %1$s を調べると、どの企業に付与されたものか確認できます。GS1 に記録がなくても、それだけで偽物とは限りません。</string>
     <string name="fd_db_found">%1$s にこのコードが登録されています：%2$s。</string>
     <string name="fd_db_none">%1$s には見つかりませんでした。偽物という意味ではなく、未登録というだけです。</string>
     <string name="fd_db_offline">商品データベースに接続できませんでした。</string>

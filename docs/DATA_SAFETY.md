@@ -18,7 +18,6 @@
 | Approximate location (IP-derived) | Yes | Yes (Google AdMob) | No | Advertising | Collected by the AdMob SDK |
 | App interactions / diagnostics | Yes | Yes (Google AdMob) | No | Advertising, analytics | Collected by the AdMob SDK — verify against the current AdMob guide |
 | Photos | Yes, only in Gemini mode | Yes (Google Gemini) | **Yes** | App functionality | Off by default; explicit consent dialog; user's own API key |
-| Other app activity (barcode digits) | Yes, when "Check barcodes online" is on | Yes (open product databases) | **Yes** | App functionality | Only the digits; can be switched off |
 | Personal info, financial info, health, messages, contacts, audio, files | No | – | – | – | |
 
 Local-only data (history, thumbnails, settings, encrypted API keys) never leaves the device and is not "collected".

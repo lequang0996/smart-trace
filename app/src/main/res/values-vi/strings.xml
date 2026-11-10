@@ -89,6 +89,7 @@
     <string name="tts_unavailable">Máy chưa cài giọng đọc cho ngôn ngữ này. Hãy cài trong cài đặt chuyển văn bản thành giọng nói của máy.</string>
     <string name="tts_reading">Đang đọc</string>
     <string name="delete_item">Xóa</string>
+    <string name="open_gs1">Tra cứu trên GS1</string>
     <string name="open_link">Mở liên kết</string>
     <string name="hist_title">Lịch sử quét</string>
     <string name="fav_title">Yêu thích</string>
@@ -108,7 +109,6 @@
     <string name="set_tts_speed">Tốc độ đọc (tối đa 4×)</string>
     <string name="set_keys">Khóa Gemini API</string>
     <string name="set_keys_count">Đã lưu %1$s khóa</string>
-    <string name="set_model">Mô hình</string>
     <string name="set_guide">Hướng dẫn sử dụng</string>
     <string name="set_privacy">Chính sách quyền riêng tư</string>
     <string name="set_ads_privacy">Tùy chọn quyền riêng tư quảng cáo</string>
@@ -122,7 +122,6 @@
     <string name="keys_s1">Mở aistudio.google.com/apikey và đăng nhập bằng tài khoản Google.</string>
     <string name="keys_s2">Bấm “Create API key” (Tạo khóa API).</string>
     <string name="keys_s3">Nếu được hỏi, hãy chọn hoặc tạo một dự án Google Cloud. Dùng dự án mặc định là được.</string>
-    <string name="keys_s4">Sao chép khóa. Khóa thường bắt đầu bằng “AIza”.</string>
     <string name="keys_s5">Quay lại đây, dán vào ô phía trên (mỗi dòng một khóa) rồi bấm Lưu khóa.</string>
     <string name="keys_s6">Không chia sẻ khóa cho người khác. Nếu bị lộ, hãy xóa trong AI Studio và tạo khóa mới.</string>
     <string name="keys_open_studio">Mở Google AI Studio</string>
@@ -180,6 +179,7 @@
     <string name="fd_gtin_bad">Mã %1$s: chữ số kiểm tra SAI. Có thể in lỗi hoặc làm giả.</string>
     <string name="fd_prefix">Tiền tố GS1 %1$s đăng ký tại %2$s. Điều này không chứng minh nơi sản xuất.</string>
     <string name="fd_prefix_diff">Nhãn ghi xuất xứ %1$s nhưng tiền tố mã vạch thuộc %2$s. Có thể bình thường, nhưng nên xác minh.</string>
+    <string name="fd_gs1_verify">Hãy tra mã %1$s trên Verified by GS1 để biết mã được cấp cho doanh nghiệp nào. Nếu GS1 chưa có dữ liệu, điều đó không tự nó có nghĩa là hàng giả.</string>
     <string name="fd_db_found">%1$s có ghi mã này: %2$s.</string>
     <string name="fd_db_none">Không tìm thấy trong %1$s. Điều này không có nghĩa là giả, chỉ là chưa được ghi nhận.</string>
     <string name="fd_db_offline">Không kết nối được tới cơ sở dữ liệu sản phẩm.</string>
