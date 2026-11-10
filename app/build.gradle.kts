@@ -32,6 +32,12 @@ android {
             "\"" + cfg("PRIVACY_URL", "https://YOUR_GITHUB_USERNAME.github.io/SmartTrace/privacy-policy.html") + "\""
         )
         buildConfigField("String", "SUPPORT_EMAIL", "\"17eathday@gmail.com\"")
+
+        // Optional: smaller sideload APKs, e.g. -PABI_FILTERS=arm64-v8a,armeabi-v7a (CI debug build uses this).
+        // Release/AAB builds do not pass it, so Google Play still gets every ABI.
+        (findProperty("ABI_FILTERS") as String?)?.takeIf { it.isNotBlank() }?.let { abis ->
+            ndk { abiFilters += abis.split(",").map { it.trim() }.filter { it.isNotEmpty() } }
+        }
     }
 
     signingConfigs {
@@ -84,6 +90,7 @@ android {
     lint {
         abortOnError = false
         checkReleaseBuilds = false
+        disable += "UseKtx" // style-only suggestions
     }
 }
 

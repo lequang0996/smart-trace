@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="Typos,TypographyDashes">
     <string name="app_name" translatable="false">SmartTrace</string>
     <string name="tagline">Scan labels. Check consistency. Trace origin.</string>
     <string name="nav_scan">Scan</string>

@@ -10,8 +10,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.fws.smarttrace.BuildConfig
@@ -29,7 +30,9 @@ fun BannerAd(modifier: Modifier = Modifier) {
     val ready by AdsManager.ready.collectAsState()
     if (!ready) return
     val context = LocalContext.current
-    val widthDp = (LocalConfiguration.current.screenWidthDp - 32).coerceAtLeast(320)
+    val density = LocalDensity.current
+    val windowWidthPx = LocalWindowInfo.current.containerSize.width
+    val widthDp = (with(density) { windowWidthPx.toDp().value }.toInt() - 32).coerceAtLeast(320)
     val adView = remember {
         AdView(context).apply {
             setAdSize(AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(context, widthDp))
