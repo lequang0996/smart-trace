@@ -25,6 +25,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.fws.smarttrace.R
 import com.fws.smarttrace.ui.components.BannerAd
 import com.fws.smarttrace.ui.components.Ico
