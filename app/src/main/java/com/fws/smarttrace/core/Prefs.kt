@@ -31,6 +31,11 @@ class Prefs(context: Context) {
         get() = sp.getBoolean("gemini_consent", false)
         set(v) = sp.edit().putBoolean("gemini_consent", v).apply()
 
+    /** The first-launch language popup. People who already finished onboarding before this existed skip it. */
+    var languageChosen: Boolean
+        get() = sp.getBoolean("language_chosen", onboarded)
+        set(v) = sp.edit().putBoolean("language_chosen", v).apply()
+
     var onboarded: Boolean
         get() = sp.getBoolean("onboarded", false)
         set(v) = sp.edit().putBoolean("onboarded", v).apply()

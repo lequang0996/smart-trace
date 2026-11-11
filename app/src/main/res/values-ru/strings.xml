@@ -11,11 +11,11 @@
     <string name="mode_offline">Офлайн</string>
     <string name="mode_gemini">Gemini AI</string>
     <string name="mode_hint_offline">Работает на телефоне. Фото не загружается. Без модели компьютерного зрения, как у ИИ, распознавание данных хуже. Используйте режим ИИ для самых точных данных.</string>
-    <string name="mode_hint_gemini">У Gemini есть модели компьютерного зрения: он лучше читает данные, анализирует изображения и переводит, чем автономный режим.</string>
+    <string name="mode_hint_gemini">У Gemini есть модели компьютерного зрения: он лучше читает данные, анализирует изображения и переводит, чем автономный режим. Результаты показываются на языке, выбранном в настройках.</string>
     <string name="need_key">Добавьте ключ Gemini API, чтобы использовать режим Gemini.</string>
     <string name="btn_add_key">Добавить ключ</string>
     <string name="tips_title">Советы для хорошего снимка</string>
-    <string name="tips_body">• Пусть этикетка занимает весь кадр.\n• Избегайте бликов и теней.\n• Штрихкоды и QR-коды снимайте отдельно и крупно.</string>
+    <string name="tips_body">• Снимайте весь текст и коды на упаковке так, чтобы они занимали почти весь кадр.\n• Избегайте бликов и теней.</string>
     <string name="stage_prepare">Подготовка снимка…</string>
     <string name="stage_code">Поиск штрихкодов и QR-кодов…</string>
     <string name="stage_read">Распознавание текста этикетки на телефоне…</string>
@@ -207,4 +207,7 @@
     <string name="sc_market">Предполагаемый рынок</string>
     <string name="res_translating">Перевод результатов на язык: %1$s…</string>
     <string name="fd_ocr_poor">Автономное распознавание текста на этом фото ненадёжно (много искажённых строк). Для точных данных используйте режим Gemini AI.</string>
+    <string name="lang_welcome_title">Выберите язык</string>
+    <string name="lang_welcome_sub">Его можно изменить в любой момент в настройках.</string>
+    <string name="lang_continue">Продолжить</string>
 </resources>

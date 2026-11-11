@@ -11,11 +11,11 @@
     <string name="mode_offline">Ngoại tuyến</string>
     <string name="mode_gemini">Gemini AI</string>
     <string name="mode_hint_offline">Chạy ngay trên điện thoại. Ảnh của bạn không bị tải lên. Vì không có mô hình thị giác như AI nên việc nhận dạng dữ liệu sẽ kém hơn. Hãy dùng chế độ AI để đọc dữ liệu chuẩn nhất.</string>
-    <string name="mode_hint_gemini">Gemini có mô hình thị giác, đọc dữ liệu, phân tích ảnh và dịch tốt hơn chế độ ngoại tuyến.</string>
+    <string name="mode_hint_gemini">Gemini có mô hình thị giác, đọc dữ liệu, phân tích ảnh và dịch tốt hơn chế độ ngoại tuyến. Hỗ trợ hiển thị kết quả theo ngôn ngữ đã chọn trong Cài đặt.</string>
     <string name="need_key">Hãy thêm khóa Gemini API để dùng chế độ Gemini.</string>
     <string name="btn_add_key">Thêm khóa</string>
     <string name="tips_title">Mẹo chụp ảnh tốt</string>
-    <string name="tips_body">• Chụp sao cho nhãn chiếm gần hết khung hình.\n• Tránh chói sáng và bóng đổ.\n• Chụp riêng mã vạch, mã QR ở cự ly gần.</string>
+    <string name="tips_body">• Hãy chụp toàn bộ phần chữ và mã trên bao bì chiếm gần hết khung hình.\n• Tránh chói sáng và bóng đổ.</string>
     <string name="stage_prepare">Đang chuẩn bị ảnh…</string>
     <string name="stage_code">Đang tìm mã vạch và mã QR…</string>
     <string name="stage_read">Đang đọc chữ trên nhãn ngay trên máy…</string>
@@ -207,4 +207,7 @@
     <string name="sc_market">Thị trường dự kiến</string>
     <string name="res_translating">Đang dịch kết quả sang %1$s…</string>
     <string name="fd_ocr_poor">Chế độ ngoại tuyến đọc chữ trên ảnh này chưa đáng tin (nhiều dòng bị lỗi). Hãy dùng chế độ Gemini AI để có dữ liệu chính xác.</string>
+    <string name="lang_welcome_title">Chọn ngôn ngữ của bạn</string>
+    <string name="lang_welcome_sub">Bạn có thể đổi bất cứ lúc nào trong Cài đặt.</string>
+    <string name="lang_continue">Tiếp tục</string>
 </resources>

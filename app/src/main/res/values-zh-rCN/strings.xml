@@ -11,11 +11,11 @@
     <string name="mode_offline">离线</string>
     <string name="mode_gemini">Gemini AI</string>
     <string name="mode_hint_offline">在手机上运行，照片不会上传。由于没有 AI 视觉模型，识别效果会较差。请使用 AI 模式以获得最准确的数据。</string>
-    <string name="mode_hint_gemini">Gemini 拥有视觉模型，读取数据、分析图片和翻译的效果都优于离线模式。</string>
+    <string name="mode_hint_gemini">Gemini 拥有视觉模型，读取数据、分析图片和翻译的效果都优于离线模式。结果将以设置中所选的语言显示。</string>
     <string name="need_key">请先添加 Gemini API 密钥以使用 Gemini 模式。</string>
     <string name="btn_add_key">添加密钥</string>
     <string name="tips_title">拍好照片的小技巧</string>
-    <string name="tips_body">• 让标签尽量占满画面。\n• 避免反光和阴影。\n• 条码和二维码请近距离单独拍摄。</string>
+    <string name="tips_body">• 请拍下包装上的全部文字和条码，让它们几乎占满整个画面。\n• 避免反光和阴影。</string>
     <string name="stage_prepare">正在处理图片…</string>
     <string name="stage_code">正在查找条码和二维码…</string>
     <string name="stage_read">正在本机识别标签文字…</string>
@@ -207,4 +207,7 @@
     <string name="sc_market">预期销售市场</string>
     <string name="res_translating">正在将结果翻译为%1$s…</string>
     <string name="fd_ocr_poor">离线文字识别对这张照片不太可靠（许多行有乱码）。请使用 Gemini AI 模式获取准确数据。</string>
+    <string name="lang_welcome_title">选择您的语言</string>
+    <string name="lang_welcome_sub">您可以随时在“设置”中更改。</string>
+    <string name="lang_continue">继续</string>
 </resources>

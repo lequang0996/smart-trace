@@ -11,11 +11,11 @@
     <string name="mode_offline">Sin conexión</string>
     <string name="mode_gemini">Gemini AI</string>
     <string name="mode_hint_offline">Funciona en tu teléfono. Tu foto no se sube. Sin un modelo de visión como la IA, el reconocimiento de datos es peor. Usa el modo IA para obtener los datos más precisos.</string>
-    <string name="mode_hint_gemini">Gemini tiene modelos de visión que leen datos, analizan imágenes y traducen mejor que el modo sin conexión.</string>
+    <string name="mode_hint_gemini">Gemini tiene modelos de visión que leen datos, analizan imágenes y traducen mejor que el modo sin conexión. Los resultados se muestran en el idioma elegido en Ajustes.</string>
     <string name="need_key">Añade una clave de Gemini API para usar el modo Gemini.</string>
     <string name="btn_add_key">Añadir clave</string>
     <string name="tips_title">Consejos para una buena foto</string>
-    <string name="tips_body">• Llena el encuadre con la etiqueta.\n• Evita reflejos y sombras.\n• Fotografía los códigos de barras y QR de cerca y por separado.</string>
+    <string name="tips_body">• Fotografía todo el texto y los códigos del envase, ocupando casi todo el encuadre.\n• Evita reflejos y sombras.</string>
     <string name="stage_prepare">Preparando la imagen…</string>
     <string name="stage_code">Buscando códigos de barras y QR…</string>
     <string name="stage_read">Leyendo el texto de la etiqueta en tu teléfono…</string>
@@ -207,4 +207,7 @@
     <string name="sc_market">Mercado previsto</string>
     <string name="res_translating">Traduciendo los resultados a %1$s…</string>
     <string name="fd_ocr_poor">La lectura de texto sin conexión no es fiable para esta foto (muchas líneas salen ilegibles). Usa el modo Gemini IA para obtener datos precisos.</string>
+    <string name="lang_welcome_title">Elige tu idioma</string>
+    <string name="lang_welcome_sub">Puedes cambiarlo en cualquier momento en Ajustes.</string>
+    <string name="lang_continue">Continuar</string>
 </resources>

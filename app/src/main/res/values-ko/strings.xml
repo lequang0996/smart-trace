@@ -11,11 +11,11 @@
     <string name="mode_offline">오프라인</string>
     <string name="mode_gemini">Gemini AI</string>
     <string name="mode_hint_offline">휴대폰에서 처리됩니다. 사진은 업로드되지 않습니다. AI 같은 비전 모델이 없어 데이터 인식 정확도가 떨어집니다. 가장 정확한 데이터를 원하면 AI 모드를 사용하세요.</string>
-    <string name="mode_hint_gemini">Gemini에는 비전 모델이 있어 오프라인 모드보다 데이터 읽기, 이미지 분석, 번역을 더 잘합니다.</string>
+    <string name="mode_hint_gemini">Gemini에는 비전 모델이 있어 오프라인 모드보다 데이터 읽기, 이미지 분석, 번역을 더 잘합니다. 결과는 설정에서 선택한 언어로 표시됩니다.</string>
     <string name="need_key">Gemini 모드를 사용하려면 Gemini API 키를 추가하세요.</string>
     <string name="btn_add_key">키 추가</string>
     <string name="tips_title">좋은 사진을 찍는 요령</string>
-    <string name="tips_body">• 라벨이 화면에 가득 차도록 찍으세요.\n• 반사와 그림자를 피하세요.\n• 바코드와 QR 코드는 가까이서 따로 찍으세요.</string>
+    <string name="tips_body">• 포장의 모든 문구와 코드가 화면을 거의 가득 채우도록 촬영하세요.\n• 빛 반사와 그림자를 피하세요.</string>
     <string name="stage_prepare">이미지 준비 중…</string>
     <string name="stage_code">바코드와 QR 코드를 찾는 중…</string>
     <string name="stage_read">휴대폰에서 라벨 텍스트를 읽는 중…</string>
@@ -207,4 +207,7 @@
     <string name="sc_market">예상 판매 시장</string>
     <string name="res_translating">결과를 %1$s(으)로 번역하는 중…</string>
     <string name="fd_ocr_poor">이 사진은 오프라인 문자 인식이 신뢰하기 어렵습니다(깨진 줄이 많음). 정확한 데이터는 Gemini AI 모드를 사용하세요.</string>
+    <string name="lang_welcome_title">언어를 선택하세요</string>
+    <string name="lang_welcome_sub">설정에서 언제든지 변경할 수 있습니다.</string>
+    <string name="lang_continue">계속</string>
 </resources>

@@ -37,6 +37,7 @@ data class SettingsState(
     val useGemini: Boolean,
     val consent: Boolean,
     val onboarded: Boolean,
+    val languageChosen: Boolean,
     val keys: List<String>,
 )
 
@@ -50,7 +51,7 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         SettingsState(
             themeMode = prefs.themeMode, ttsSpeed = prefs.ttsSpeed, useGemini = prefs.useGemini,
             consent = prefs.geminiConsent, 
-            onboarded = prefs.onboarded, keys = emptyList(),
+            onboarded = prefs.onboarded, languageChosen = prefs.languageChosen, keys = emptyList(),
         )
     )
     val settings: StateFlow<SettingsState> = _settings.asStateFlow()
@@ -182,6 +183,11 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     fun setConsent(v: Boolean) {
         prefs.geminiConsent = v
         _settings.update { it.copy(consent = v) }
+    }
+
+    fun finishLanguage() {
+        prefs.languageChosen = true
+        _settings.update { it.copy(languageChosen = true) }
     }
 
     fun finishOnboarding() {

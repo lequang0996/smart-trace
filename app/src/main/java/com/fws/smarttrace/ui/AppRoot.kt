@@ -30,6 +30,7 @@ import com.fws.smarttrace.R
 import com.fws.smarttrace.ui.components.BannerAd
 import com.fws.smarttrace.ui.components.Ico
 import com.fws.smarttrace.ui.screens.GuideScreen
+import com.fws.smarttrace.ui.screens.LanguageWelcomeScreen
 import com.fws.smarttrace.ui.screens.HistoryScreen
 import com.fws.smarttrace.ui.screens.KeysScreen
 import com.fws.smarttrace.ui.screens.ResultScreen
@@ -72,6 +73,7 @@ fun AppRoot(
 
     val result = opened
     when {
+        !settings.languageChosen -> LanguageWelcomeScreen(onPick = { vm.setLanguage(it) }, onContinue = { vm.finishLanguage() })
         !settings.onboarded -> GuideScreen(vm, first = true, onClose = { vm.finishOnboarding() })
         overlay == OVERLAY_KEYS -> KeysScreen(vm, onBack = { overlay = OVERLAY_NONE })
         overlay == OVERLAY_GUIDE -> GuideScreen(vm, first = false, onClose = { overlay = OVERLAY_NONE })
