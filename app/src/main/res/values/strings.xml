@@ -199,4 +199,11 @@
     <string name="fd_gs1link">The QR is a GS1 Digital Link for code %1$s.</string>
     <string name="fd_qr_text">QR text: %1$s</string>
     <string name="fd_ai_barcode">This code was read by AI from the printed digits, not scanned directly. Treat it with lower confidence.</string>
+    <string name="code_source_text">Read from label text</string>
+    <string name="fd_imei_ok">IMEI %1$s passes the Luhn check. This only checks the number format; it does not prove the IMEI is real or registered.</string>
+    <string name="fd_imei_bad">IMEI %1$s fails the Luhn check: a digit may be misread or the number may be wrong. Retake a sharper photo and compare it with the number on the device (dial *#06#).</string>
+    <string name="fd_code_text">Code content: %1$s</string>
+    <string name="fd_marks">Marks seen on the pack: %1$s (printed claims, not verified by the app).</string>
+    <string name="res_marks_title">Marks and symbols on the pack</string>
+    <string name="sc_market">Intended market</string>
 </resources>

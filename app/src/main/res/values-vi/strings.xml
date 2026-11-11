@@ -198,4 +198,11 @@
     <string name="fd_gs1link">Mã QR là liên kết GS1 Digital Link cho mã %1$s.</string>
     <string name="fd_qr_text">Nội dung QR: %1$s</string>
     <string name="fd_ai_barcode">Mã này do AI đọc từ dãy số in bên dưới, không phải quét trực tiếp nên độ tin cậy thấp hơn.</string>
+    <string name="code_source_text">Đọc từ chữ trên nhãn</string>
+    <string name="fd_imei_ok">IMEI %1$s vượt qua kiểm tra Luhn. Đây chỉ là kiểm tra định dạng, không chứng minh IMEI là thật hay đã được đăng ký.</string>
+    <string name="fd_imei_bad">IMEI %1$s không qua kiểm tra Luhn: có thể đọc sai một chữ số hoặc số này sai. Hãy chụp lại rõ hơn và so với số trên máy (bấm *#06#).</string>
+    <string name="fd_code_text">Nội dung mã: %1$s</string>
+    <string name="fd_marks">Dấu/ký hiệu thấy trên bao bì: %1$s (do nhà sản xuất tự in, app không xác minh).</string>
+    <string name="res_marks_title">Dấu và ký hiệu trên bao bì</string>
+    <string name="sc_market">Thị trường dự kiến</string>
 </resources>

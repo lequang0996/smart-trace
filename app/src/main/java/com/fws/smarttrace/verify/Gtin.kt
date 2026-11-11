@@ -12,6 +12,30 @@ object Gtin {
         return (10 - sum % 10) % 10 == d.last()
     }
 
+    /** Luhn check used by IMEI numbers (15 digits). Format check only: it cannot prove the IMEI is registered. */
+    fun isValidImei(code: String): Boolean {
+        if (code.length != 15 || !code.all { it in '0'..'9' }) return false
+        var sum = 0
+        for (i in 0 until 15) {
+            var d = code[14 - i] - '0'
+            if (i % 2 == 1) { d *= 2; if (d > 9) d -= 9 }
+            sum += d
+        }
+        return sum % 10 == 0
+    }
+
+    // EAN-13 printed as "6 941812 749906", UPC-A as "0 12345 67890 5", or 13 plain digits.
+    private val GTIN_TEXT = Regex("""(?<!\d)(?:\d \d{6} \d{6}|\d \d{5} \d{5} \d|\d{13})(?!\d)""")
+    private val IMEI_TEXT = Regex("""(?i)IMEI\s*\d?\s*[:：]?\s*(\d{15})(?!\d)""")
+
+    /** Barcode numbers printed under a barcode, found in OCR / AI text. Only values with a valid check digit are kept. */
+    fun gtinsInText(text: String): List<String> =
+        GTIN_TEXT.findAll(text).map { m -> m.value.filter { it.isDigit() } }.filter { isValid(it) }.distinct().toList()
+
+    /** IMEI numbers that are explicitly labelled "IMEI" in the text. */
+    fun imeisInText(text: String): List<String> =
+        IMEI_TEXT.findAll(text).map { it.groupValues[1] }.distinct().toList()
+
     /** The 3-digit GS1 prefix in EAN-13 form. */
     fun prefix3(code: String): String? = when (code.length) {
         13, 8 -> code.substring(0, 3)

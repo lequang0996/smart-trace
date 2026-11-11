@@ -62,6 +62,10 @@ object FindingText {
         "URL_PUNY" to Spec(R.string.fd_url_puny, Group.AUTH),
         "GS1LINK" to Spec(R.string.fd_gs1link, Group.AUTH),
         "QR_TEXT" to Spec(R.string.fd_qr_text, Group.AUTH),
+        "CODE_TEXT" to Spec(R.string.fd_code_text, Group.AUTH),
+        "IMEI_OK" to Spec(R.string.fd_imei_ok, Group.AUTH),
+        "IMEI_BAD" to Spec(R.string.fd_imei_bad, Group.AUTH),
+        "MARKS" to Spec(R.string.fd_marks, Group.LEGAL),
     )
 
     fun group(f: Finding): Group = specs[f.code]?.group ?: Group.AUTH

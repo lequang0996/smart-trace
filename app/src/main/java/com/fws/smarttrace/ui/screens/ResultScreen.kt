@@ -286,6 +286,8 @@ private fun SupplyTab(r: ScanResult) {
     val originText = l.origin.ifBlank { gtinCode?.prefixIso?.let { FindingText.countryName(it) } ?: "" }
     steps += Step(R.string.sc_origin, originText.ifBlank { notFound }, if (l.origin.isNotBlank()) Severity.OK else Severity.INFO)
 
+    if (l.marketNote.isNotBlank()) steps += Step(R.string.sc_market, l.marketNote, Severity.INFO)
+
     val maker = l.manufacturer.ifBlank { l.brand }
     val makerText = listOf(maker, l.address, l.phone).filter { it.isNotBlank() }.joinToString("\n")
     steps += Step(R.string.sc_maker, makerText.ifBlank { notFound }, if (maker.isNotBlank()) Severity.OK else Severity.WARN)
@@ -332,6 +334,12 @@ private fun SupplyTab(r: ScanResult) {
 
 @Composable
 private fun LegalTab(r: ScanResult) {
+    if (r.label.marks.isNotEmpty()) {
+        Text(stringResource(R.string.res_marks_title), style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.onBackground)
+        SmartCard {
+            r.label.marks.forEach { (mark, meaning) -> LabelValue(mark, meaning.ifBlank { "—" }) }
+        }
+    }
     FindingCard(r.findings.filter { FindingText.group(it) == Group.LEGAL })
     Text(
         stringResource(R.string.legal_note), style = MaterialTheme.typography.bodySmall,
@@ -387,7 +395,13 @@ private fun CodeCard(c: CodeCheck) {
             )
             Spacer(Modifier.width(8.dp))
             Text(
-                stringResource(if (c.source == "ai") R.string.code_source_ai else R.string.code_source_scan),
+                stringResource(
+                    when (c.source) {
+                        "ai" -> R.string.code_source_ai
+                        "text" -> R.string.code_source_text
+                        else -> R.string.code_source_scan
+                    }
+                ),
                 style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }

@@ -117,7 +117,8 @@ object RiskEngine {
                 }
             }
             if (label.standards.isNotEmpty()) add("STD", Severity.INFO, label.standards.joinToString(", "))
-            else add("STD_NONE", Severity.INFO)
+            else if (label.marks.isEmpty()) add("STD_NONE", Severity.INFO)
+            if (label.marks.isNotEmpty()) add("MARKS", Severity.INFO, label.marks.joinToString(", ") { it.first }.take(160))
             if (label.grade.isNotBlank()) add("GRADE", Severity.INFO, label.grade)
 
             // --- things the AI noticed ---
@@ -130,7 +131,7 @@ object RiskEngine {
         // --- barcodes and QR codes ---
         if (codes.isEmpty()) add("NO_CODE", Severity.INFO)
         for (c in codes) {
-            if (c.source == "ai") add("AI_BARCODE", Severity.INFO)
+            if (c.source == "ai" || c.source == "text") add("AI_BARCODE", Severity.INFO)
             val shown = c.gtin ?: c.value
             c.url?.let { u ->
                 add("URL", Severity.INFO, u.host.ifBlank { u.url.take(60) })
@@ -140,7 +141,12 @@ object RiskEngine {
                 if ("puny" in u.flags) add("URL_PUNY", Severity.WARN)
                 if (c.gtin != null) add("GS1LINK", Severity.INFO, c.gtin)
             }
-            if (c.kind == "TEXT") add("QR_TEXT", Severity.INFO, c.value.take(80))
+            if (c.kind == "TEXT") {
+                if (c.format in setOf("QR", "Data Matrix", "Aztec", "PDF417")) add("QR_TEXT", Severity.INFO, c.value.take(80))
+                else add("CODE_TEXT", Severity.INFO, c.value.take(80))
+            }
+            if (c.kind == "IMEI") add("IMEI_OK", Severity.OK, c.value)
+            if (c.kind == "IMEI_BAD") add("IMEI_BAD", Severity.WARN, c.value)
 
             val valid = c.gtinValid
             if (valid != null) {

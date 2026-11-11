@@ -67,6 +67,10 @@ data class ExtractedLabel(
     val confidence: Double? = null,
     val barcodeTexts: List<String> = emptyList(),
     val visualHints: List<String> = emptyList(),
+    /** Certification / compliance / recycling marks seen on the pack: (mark, short meaning). */
+    val marks: List<Pair<String, String>> = emptyList(),
+    /** Which market the pack seems intended for, only when printed evidence exists. */
+    val marketNote: String = "",
 ) {
     fun toJson(): JSONObject = JSONObject().apply {
         put("productName", productName); put("brand", brand); put("category", category)
@@ -88,6 +92,8 @@ data class ExtractedLabel(
         confidence?.let { put("confidence", it) }
         put("barcodeTexts", JSONArray(barcodeTexts))
         put("visualHints", JSONArray(visualHints))
+        put("marks", JSONArray().also { a -> marks.forEach { (m, d) -> a.put(JSONObject().put("m", m).put("d", d)) } })
+        put("marketNote", marketNote)
     }
 
     companion object {
@@ -111,6 +117,13 @@ data class ExtractedLabel(
                 rawText = o.str("rawText"), aiSigns = o.optJSONArray("aiSigns").strings(),
                 confidence = o.dbl("confidence"), barcodeTexts = o.optJSONArray("barcodeTexts").strings(),
                 visualHints = o.optJSONArray("visualHints").strings(),
+                marks = o.optJSONArray("marks").let { arr ->
+                    if (arr == null) emptyList() else List(arr.length()) { i ->
+                        val m = arr.optJSONObject(i)
+                        (m?.optString("m") ?: "") to (m?.optString("d") ?: "")
+                    }.filter { it.first.isNotBlank() }
+                },
+                marketNote = o.str("marketNote"),
             )
         }
     }

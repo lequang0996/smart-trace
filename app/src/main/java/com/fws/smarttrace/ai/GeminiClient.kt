@@ -28,12 +28,14 @@ object GeminiClient {
     private const val PROMPT = """You are a packaging-label reader and translator for a product traceability app. Read the photo (carton, bag, label, barcode).
 Return ONLY one JSON object, with no markdown. Use "" or null when a value is not visible. NEVER guess or invent values.
 Schema:
-{"productName":"","brand":"","category":"tile|adhesive|paint|cement|food|cosmetic|electronics|other","manufacturer":"","origin":"","originIso":"","address":"","phone":"","size":"","quantityPcs":null,"areaSqm":null,"netWeightKg":null,"grossWeightKg":null,"grade":"","itemCode":"","batch":"","shade":"","mfgDate":"","expDate":"","shelfLifeMonths":null,"standards":[],"specs":[{"label":"","value":""}],"barcodes":[],"hasVietnameseLabel":false,"handwrittenFields":[],"suspiciousSigns":[],"rawText":"","confidence":0.0}
+{"productName":"","brand":"","category":"tile|adhesive|paint|cement|food|cosmetic|electronics|other","manufacturer":"","origin":"","originIso":"","address":"","phone":"","size":"","quantityPcs":null,"areaSqm":null,"netWeightKg":null,"grossWeightKg":null,"grade":"","itemCode":"","batch":"","shade":"","mfgDate":"","expDate":"","shelfLifeMonths":null,"standards":[],"specs":[{"label":"","value":""}],"barcodes":[],"hasVietnameseLabel":false,"handwrittenFields":[],"suspiciousSigns":[],"marks":[{"mark":"","meaning":""}],"marketNote":"","rawText":"","confidence":0.0}
 Reading rules:
 - The photo may be sideways or upside down. Read it carefully and transcribe exactly what is printed.
 - "handwrittenFields": names of fields whose value is handwritten or overwritten by pen.
 - "barcodes": digits printed under any barcode, or QR text you can read.
-- "specs": every other technical specification printed on the pack (ingredients, usage, directions, warnings, storage, etc.) as label/value pairs.
+- "specs": every other technical specification printed on the pack (ingredients, usage, directions, warnings, storage, model number, memory / storage size, colour, package contents, serial number, IMEI, EID, etc.) as label/value pairs.
+- "marks": every certification, compliance, safety, recycling or quality mark or symbol that is printed or drawn on the pack (for example CE, UKCA, FCC, RoHS, the crossed-out wheelie bin WEEE, Triman, Bac de tri, recycling codes such as PAP 21, FSC, CCC, BIS, QC PASS, Hi-Res Audio). "mark" is its name as shown; "meaning" is one short explanation in {LANG}. List only marks that are really visible in the photo; never add a mark because the product type usually has it.
+- "marketNote": one short sentence in {LANG} about which market or region the pack appears to be made for, ONLY when there is printed evidence (a printed list of country codes, text blocks in regional languages, regional certification marks). Otherwise "".
 - "hasVietnameseLabel": true only if Vietnamese-language label text is present.
 - "originIso": ISO 3166-1 alpha-2 code of the country of origin when it is stated or clearly implied (for example CN, VN, JP), otherwise "".
 - "confidence": 0 to 1 for the overall reading.
@@ -202,7 +204,14 @@ Translation rules (the app user reads {LANG}):
             hasVietnameseLabel = o.bool("hasVietnameseLabel"),
             handwritten = o.optJSONArray("handwrittenFields").strings().take(6),
             rawText = raw.take(4000), aiSigns = o.optJSONArray("suspiciousSigns").strings().take(3),
-            confidence = o.dbl("confidence"), barcodeTexts = o.optJSONArray("barcodes").strings().take(4),
+            confidence = o.dbl("confidence"), barcodeTexts = o.optJSONArray("barcodes").strings().take(6),
+            marks = o.optJSONArray("marks").let { arr ->
+                if (arr == null) emptyList() else List(arr.length()) { i ->
+                    val m = arr.optJSONObject(i)
+                    (m?.str("mark") ?: "") to (m?.str("meaning") ?: "")
+                }.filter { it.first.isNotBlank() }.distinctBy { it.first.lowercase() }.take(16)
+            },
+            marketNote = o.str("marketNote").take(300),
         )
     }
 }

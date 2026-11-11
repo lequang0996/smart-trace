@@ -72,10 +72,20 @@ class AnalysisPipeline(private val ctx: Context) {
         onStage(Stage.VERIFY)
         val codes = ArrayList<CodeCheck>()
         for (s in scanned) codes += buildCode(s.value, s.format, "scan", s.isUrl)
-        if (scanned.isEmpty()) {
-            for (t in label.barcodeTexts.map { it.filter(Char::isDigit) }.filter { it.length in intArrayOf(8, 12, 13, 14) }.distinct().take(2)) {
-                codes += buildCode(t, "EAN/UPC", "ai", false)
-            }
+
+        // Numbers printed on the label that the scanner did not decode (blurry / small barcodes). Always checked,
+        // not only when nothing was scanned; only values with a valid check digit are kept.
+        val seen = scanned.map { it.value.filter(Char::isDigit) }.toHashSet()
+        val textSource = if (mode == AnalysisMode.GEMINI) "ai" else "text"
+        val fromAi = label.barcodeTexts.map { it.filter(Char::isDigit) }
+            .filter { it.length in intArrayOf(8, 12, 13, 14) && Gtin.isValid(it) }
+        for (g in (fromAi + Gtin.gtinsInText(label.rawText)).distinct().filter { it !in seen }.take(3)) {
+            codes += buildCode(g, "EAN/UPC", textSource, false)
+            seen += g
+        }
+        for (imei in Gtin.imeisInText(label.rawText).filter { it !in seen }.take(2)) {
+            codes += buildCode(imei, "IMEI", textSource, false)
+            seen += imei
         }
 
         onStage(Stage.SCORE)
@@ -107,6 +117,8 @@ class AnalysisPipeline(private val ctx: Context) {
         } else if (value.all { it in '0'..'9' } && value.length in intArrayOf(8, 12, 13, 14)) {
             gtin = value
             kind = "GTIN"
+        } else if (value.length == 15 && value.all { it in '0'..'9' }) {
+            kind = if (Gtin.isValidImei(value)) "IMEI" else "IMEI_BAD"
         } else {
             kind = "TEXT"
         }

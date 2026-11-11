@@ -198,4 +198,11 @@
     <string name="fd_gs1link">该二维码是针对条码 %1$s 的 GS1 数字链接。</string>
     <string name="fd_qr_text">二维码内容：%1$s</string>
     <string name="fd_ai_barcode">该条码由 AI 从印刷数字读取，并非直接扫描，可信度较低。</string>
+    <string name="code_source_text">从标签文字读取</string>
+    <string name="fd_imei_ok">IMEI %1$s 通过 Luhn 校验。这只检查号码格式，不能证明 IMEI 真实或已注册。</string>
+    <string name="fd_imei_bad">IMEI %1$s 未通过 Luhn 校验：可能有数字识别错误，或号码有误。请重新拍清晰一些，并与手机上的号码对照（拨 *#06#）。</string>
+    <string name="fd_code_text">条码内容：%1$s</string>
+    <string name="fd_marks">包装上可见的标志：%1$s（为印刷声明，应用不验证）。</string>
+    <string name="res_marks_title">包装上的标志和符号</string>
+    <string name="sc_market">预期销售市场</string>
 </resources>

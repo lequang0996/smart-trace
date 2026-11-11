@@ -198,4 +198,11 @@
     <string name="fd_gs1link">El QR es un GS1 Digital Link para el código %1$s.</string>
     <string name="fd_qr_text">Texto del QR: %1$s</string>
     <string name="fd_ai_barcode">Este código lo leyó la IA a partir de los dígitos impresos, no se escaneó directamente. Fíate menos de él.</string>
+    <string name="code_source_text">Leído del texto de la etiqueta</string>
+    <string name="fd_imei_ok">El IMEI %1$s supera la comprobación de Luhn. Solo verifica el formato del número; no demuestra que el IMEI sea real o esté registrado.</string>
+    <string name="fd_imei_bad">El IMEI %1$s no supera la comprobación de Luhn: puede que se haya leído mal un dígito o que el número sea incorrecto. Haz una foto más nítida y compáralo con el del dispositivo (marca *#06#).</string>
+    <string name="fd_code_text">Contenido del código: %1$s</string>
+    <string name="fd_marks">Marcas vistas en el envase: %1$s (declaraciones impresas, la app no las verifica).</string>
+    <string name="res_marks_title">Marcas y símbolos del envase</string>
+    <string name="sc_market">Mercado previsto</string>
 </resources>

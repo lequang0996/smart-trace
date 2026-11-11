@@ -198,4 +198,11 @@
     <string name="fd_gs1link">QR — это GS1 Digital Link для кода %1$s.</string>
     <string name="fd_qr_text">Текст QR: %1$s</string>
     <string name="fd_ai_barcode">Этот код прочитан ИИ по напечатанным цифрам, а не отсканирован. Доверие ниже.</string>
+    <string name="code_source_text">Считано из текста этикетки</string>
+    <string name="fd_imei_ok">IMEI %1$s проходит проверку Луна. Это проверка только формата номера; она не доказывает, что IMEI настоящий или зарегистрирован.</string>
+    <string name="fd_imei_bad">IMEI %1$s не проходит проверку Луна: возможно, цифра прочитана неверно или номер неправильный. Сделайте более чёткое фото и сравните с номером на устройстве (наберите *#06#).</string>
+    <string name="fd_code_text">Содержимое кода: %1$s</string>
+    <string name="fd_marks">Знаки на упаковке: %1$s (заявления производителя, приложение их не проверяет).</string>
+    <string name="res_marks_title">Знаки и символы на упаковке</string>
+    <string name="sc_market">Предполагаемый рынок</string>
 </resources>

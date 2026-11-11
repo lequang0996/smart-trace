@@ -198,4 +198,11 @@
     <string name="fd_gs1link">このQRは コード %1$s の GS1 Digital Link です。</string>
     <string name="fd_qr_text">QR の内容：%1$s</string>
     <string name="fd_ai_barcode">このコードは印字された数字から AI が読み取ったもので、直接スキャンではありません。信頼度は低めです。</string>
+    <string name="code_source_text">ラベルの文字から読み取り</string>
+    <string name="fd_imei_ok">IMEI %1$s はLuhnチェックに合格しました。番号の形式を確認しただけで、IMEIが本物であることや登録済みであることの証明にはなりません。</string>
+    <string name="fd_imei_bad">IMEI %1$s はLuhnチェックに合格しませんでした。数字の読み違い、または番号の誤りの可能性があります。より鮮明に撮り直し、端末の番号（*#06#）と照合してください。</string>
+    <string name="fd_code_text">コードの内容: %1$s</string>
+    <string name="fd_marks">パッケージで確認できたマーク: %1$s（印刷された表示であり、アプリは検証しません）。</string>
+    <string name="res_marks_title">パッケージのマークと記号</string>
+    <string name="sc_market">想定される市場</string>
 </resources>
