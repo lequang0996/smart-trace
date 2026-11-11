@@ -11,7 +11,7 @@
     <string name="btn_gallery">Choose image</string>
     <string name="mode_offline">Offline</string>
     <string name="mode_gemini">Gemini AI</string>
-    <string name="mode_hint_offline">Runs on your phone. Your photo is not uploaded.</string>
+    <string name="mode_hint_offline">Runs on your phone. Your photo is not uploaded. Without an AI vision model, text recognition is weaker. Use Gemini AI mode for the most accurate data.</string>
     <string name="mode_hint_gemini">Gemini has vision models that read data, analyze images and translate better than offline mode.</string>
     <string name="need_key">Add a Gemini API key to use Gemini mode.</string>
     <string name="btn_add_key">Add key</string>
@@ -206,4 +206,6 @@
     <string name="fd_marks">Marks seen on the pack: %1$s (printed claims, not verified by the app).</string>
     <string name="res_marks_title">Marks and symbols on the pack</string>
     <string name="sc_market">Intended market</string>
+    <string name="res_translating">Translating results to %1$s…</string>
+    <string name="fd_ocr_poor">Offline text reading looks unreliable for this photo (many lines are garbled). Use Gemini AI mode for accurate data.</string>
 </resources>

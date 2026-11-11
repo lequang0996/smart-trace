@@ -10,7 +10,7 @@
     <string name="btn_gallery">画像を選ぶ</string>
     <string name="mode_offline">オフライン</string>
     <string name="mode_gemini">Gemini AI</string>
-    <string name="mode_hint_offline">スマホ内で処理します。写真はアップロードされません。</string>
+    <string name="mode_hint_offline">スマホ内で処理します。写真はアップロードされません。AIのようなビジョンモデルがないため、データの認識精度は低くなります。最も正確なデータを得るにはAIモードをご利用ください。</string>
     <string name="mode_hint_gemini">Gemini にはビジョンモデルがあり、データの読み取り、画像の分析、翻訳がオフラインモードより優れています。</string>
     <string name="need_key">Gemini モードを使うには Gemini API キーを追加してください。</string>
     <string name="btn_add_key">キーを追加</string>
@@ -205,4 +205,6 @@
     <string name="fd_marks">パッケージで確認できたマーク: %1$s（印刷された表示であり、アプリは検証しません）。</string>
     <string name="res_marks_title">パッケージのマークと記号</string>
     <string name="sc_market">想定される市場</string>
+    <string name="res_translating">結果を%1$sに翻訳しています…</string>
+    <string name="fd_ocr_poor">オフラインの文字認識はこの写真では信頼できません（多くの行が文字化けしています）。正確なデータには Gemini AI モードをご利用ください。</string>
 </resources>

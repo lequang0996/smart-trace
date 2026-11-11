@@ -84,6 +84,15 @@ class HistoryStore(private val ctx: Context) : SQLiteOpenHelper(ctx.applicationC
         reload()
     }
 
+    /** Rewrites a stored result (e.g. after translation) and keeps its favorite flag. */
+    suspend fun update(r: ScanResult) = withContext(Dispatchers.IO) {
+        writableDatabase.execSQL(
+            "UPDATE scans SET title = ?, brand = ?, category = ?, json = ? WHERE id = ?",
+            arrayOf<Any>(r.title, r.label.brand, r.label.category, r.toJson().toString(), r.id)
+        )
+        reload()
+    }
+
     suspend fun get(id: String): ScanResult? = withContext(Dispatchers.IO) {
         readableDatabase.rawQuery("SELECT json FROM scans WHERE id = ?", arrayOf(id)).use { c ->
             if (c.moveToFirst()) runCatching { ScanResult.fromJson(JSONObject(c.getString(0))) }.getOrNull() else null

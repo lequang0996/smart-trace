@@ -126,6 +126,7 @@ object RiskEngine {
             label.aiSigns.take(3).forEach { add("AI_SIGN", Severity.WARN, it.take(160)) }
             val conf = label.confidence
             if (mode == AnalysisMode.GEMINI && conf != null && conf < 0.5) add("AI_LOWCONF", Severity.INFO)
+            if (mode == AnalysisMode.OFFLINE && conf != null && conf < 0.8) add("OCR_POOR", Severity.INFO)
         }
 
         // --- barcodes and QR codes ---

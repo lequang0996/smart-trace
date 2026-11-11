@@ -10,7 +10,7 @@
     <string name="btn_gallery">Chọn ảnh</string>
     <string name="mode_offline">Ngoại tuyến</string>
     <string name="mode_gemini">Gemini AI</string>
-    <string name="mode_hint_offline">Chạy ngay trên điện thoại. Ảnh của bạn không bị tải lên.</string>
+    <string name="mode_hint_offline">Chạy ngay trên điện thoại. Ảnh của bạn không bị tải lên. Vì không có mô hình thị giác như AI nên việc nhận dạng dữ liệu sẽ kém hơn. Hãy dùng chế độ AI để đọc dữ liệu chuẩn nhất.</string>
     <string name="mode_hint_gemini">Gemini có mô hình thị giác, đọc dữ liệu, phân tích ảnh và dịch tốt hơn chế độ ngoại tuyến.</string>
     <string name="need_key">Hãy thêm khóa Gemini API để dùng chế độ Gemini.</string>
     <string name="btn_add_key">Thêm khóa</string>
@@ -205,4 +205,6 @@
     <string name="fd_marks">Dấu/ký hiệu thấy trên bao bì: %1$s (do nhà sản xuất tự in, app không xác minh).</string>
     <string name="res_marks_title">Dấu và ký hiệu trên bao bì</string>
     <string name="sc_market">Thị trường dự kiến</string>
+    <string name="res_translating">Đang dịch kết quả sang %1$s…</string>
+    <string name="fd_ocr_poor">Chế độ ngoại tuyến đọc chữ trên ảnh này chưa đáng tin (nhiều dòng bị lỗi). Hãy dùng chế độ Gemini AI để có dữ liệu chính xác.</string>
 </resources>

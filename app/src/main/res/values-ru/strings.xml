@@ -10,7 +10,7 @@
     <string name="btn_gallery">Выбрать снимок</string>
     <string name="mode_offline">Офлайн</string>
     <string name="mode_gemini">Gemini AI</string>
-    <string name="mode_hint_offline">Работает на телефоне. Фото не загружается.</string>
+    <string name="mode_hint_offline">Работает на телефоне. Фото не загружается. Без модели компьютерного зрения, как у ИИ, распознавание данных хуже. Используйте режим ИИ для самых точных данных.</string>
     <string name="mode_hint_gemini">У Gemini есть модели компьютерного зрения: он лучше читает данные, анализирует изображения и переводит, чем автономный режим.</string>
     <string name="need_key">Добавьте ключ Gemini API, чтобы использовать режим Gemini.</string>
     <string name="btn_add_key">Добавить ключ</string>
@@ -205,4 +205,6 @@
     <string name="fd_marks">Знаки на упаковке: %1$s (заявления производителя, приложение их не проверяет).</string>
     <string name="res_marks_title">Знаки и символы на упаковке</string>
     <string name="sc_market">Предполагаемый рынок</string>
+    <string name="res_translating">Перевод результатов на язык: %1$s…</string>
+    <string name="fd_ocr_poor">Автономное распознавание текста на этом фото ненадёжно (много искажённых строк). Для точных данных используйте режим Gemini AI.</string>
 </resources>

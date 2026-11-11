@@ -12,6 +12,8 @@ import com.fws.smarttrace.core.Languages
 import com.fws.smarttrace.core.Prefs
 import com.fws.smarttrace.core.SecureKeyStore
 import com.fws.smarttrace.data.HistoryStore
+import com.fws.smarttrace.ai.GeminiClient
+import com.fws.smarttrace.model.AnalysisMode
 import com.fws.smarttrace.model.ScanResult
 import com.fws.smarttrace.tts.SpeechController
 import kotlinx.coroutines.CancellationException
@@ -58,6 +60,43 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
 
     private val _opened = MutableStateFlow<ScanResult?>(null)
     val opened: StateFlow<ScanResult?> = _opened.asStateFlow()
+
+    /** Id of the result whose text is being translated into the current app language. */
+    private val _translating = MutableStateFlow<String?>(null)
+    val translating: StateFlow<String?> = _translating.asStateFlow()
+    private val translateTried = HashSet<String>()
+
+    /**
+     * A Gemini reading is stored in the language the app had when it was scanned. When the app language is different now,
+     * the readable fields are translated once (text only, no photo) and the stored result is updated, so every tab,
+     * the history title and the read-aloud text follow the new language.
+     */
+    fun ensureLanguage(r: ScanResult) {
+        val tag = Languages.currentTag()
+        if (r.mode != AnalysisMode.GEMINI || r.lang == tag) return
+        val s = _settings.value
+        if (!s.consent || s.keys.isEmpty() || _translating.value != null) return
+        if (!translateTried.add(r.id + "|" + tag)) return
+        _translating.value = r.id
+        viewModelScope.launch {
+            try {
+                val label = GeminiClient.translate(r.label, s.keys, Languages.promptLanguage())
+                var i = 0
+                val findings = r.findings.map { f ->
+                    if (f.code == "AI_SIGN") (label.aiSigns.getOrNull(i++)?.let { t -> f.copy(args = listOf(t.take(160))) } ?: f) else f
+                }
+                val updated = r.copy(label = label, findings = findings, lang = tag)
+                history.update(updated)
+                if (_opened.value?.id == r.id) _opened.value = updated
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                // Keep the original text; it is tried again the next time the app starts.
+            } finally {
+                _translating.value = null
+            }
+        }
+    }
 
     /** One-shot message shown after saving keys. */
     private val _keysSaved = MutableStateFlow<Int?>(null)

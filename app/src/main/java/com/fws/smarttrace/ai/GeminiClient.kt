@@ -55,49 +55,111 @@ Translation rules (the app user reads {LANG}):
     private const val MAX_ATTEMPTS = 3
     private const val RETRY_DELAY_MS = 5_000L
 
-    private sealed interface Attempt {
-        class Ok(val label: ExtractedLabel) : Attempt
+    private sealed interface Attempt<out T> {
+        class Ok<T>(val value: T) : Attempt<T>
         /** [switchModel]: retrying the same model is pointless (quota used up, model unavailable, bad request). */
-        class Failed(val message: String, val switchModel: Boolean) : Attempt
+        class Failed(val message: String, val switchModel: Boolean) : Attempt<Nothing>
     }
+
+    private fun requestBody(parts: JSONArray): String = JSONObject()
+        .put("contents", JSONArray().put(JSONObject().put("role", "user").put("parts", parts)))
+        .put("generationConfig", JSONObject().put("temperature", 0.1).put("responseMimeType", "application/json"))
+        .toString()
 
     /**
      * Up to [MAX_ATTEMPTS] tries per model, [RETRY_DELAY_MS] apart. When the quota of a model is used up on every key
      * the next model is used straight away. When both models fail this throws, and the caller falls back to offline.
      */
-    suspend fun extract(jpeg: ByteArray, keys: List<String>, language: String): Outcome =
-        withContext(Dispatchers.IO) {
-            if (keys.isEmpty()) throw GeminiException("no key")
-            val body = JSONObject()
-                .put("contents", JSONArray().put(JSONObject()
-                    .put("role", "user")
-                    .put("parts", JSONArray()
-                        .put(JSONObject().put("text", PROMPT.replace("{LANG}", language)))
-                        .put(JSONObject().put("inline_data", JSONObject()
-                            .put("mime_type", "image/jpeg")
-                            .put("data", Base64.encodeToString(jpeg, Base64.NO_WRAP)))))))
-                .put("generationConfig", JSONObject().put("temperature", 0.1).put("responseMimeType", "application/json"))
-                .toString()
-
-            var last = "unknown error"
-            for ((index, model) in MODELS.withIndex()) {
-                val lastModel = index == MODELS.lastIndex
-                for (attempt in 1..MAX_ATTEMPTS) {
-                    when (val r = tryModel(model, keys, body, includeCooling = lastModel)) {
-                        is Attempt.Ok -> return@withContext Outcome(r.label, model)
-                        is Attempt.Failed -> {
-                            last = r.message
-                            if (r.switchModel) break
-                            if (attempt < MAX_ATTEMPTS) delay(RETRY_DELAY_MS)
-                        }
+    private suspend fun <T> generate(body: String, keys: List<String>, parse: (String) -> T): Pair<T, String> {
+        if (keys.isEmpty()) throw GeminiException("no key")
+        var last = "unknown error"
+        for ((index, model) in MODELS.withIndex()) {
+            val lastModel = index == MODELS.lastIndex
+            for (attempt in 1..MAX_ATTEMPTS) {
+                when (val r = tryModel(model, keys, body, includeCooling = lastModel, parse = parse)) {
+                    is Attempt.Ok -> return r.value to model
+                    is Attempt.Failed -> {
+                        last = r.message
+                        if (r.switchModel) break
+                        if (attempt < MAX_ATTEMPTS) delay(RETRY_DELAY_MS)
                     }
                 }
             }
-            throw GeminiException(last)
+        }
+        throw GeminiException(last)
+    }
+
+    suspend fun extract(jpeg: ByteArray, keys: List<String>, language: String): Outcome =
+        withContext(Dispatchers.IO) {
+            val body = requestBody(
+                JSONArray()
+                    .put(JSONObject().put("text", PROMPT.replace("{LANG}", language)))
+                    .put(JSONObject().put("inline_data", JSONObject()
+                        .put("mime_type", "image/jpeg")
+                        .put("data", Base64.encodeToString(jpeg, Base64.NO_WRAP))))
+            )
+            val (label, model) = generate(body, keys) { parse(it) }
+            Outcome(label, model)
+        }
+
+    private const val TRANSLATE_PROMPT = """You translate packaging-label data for a product traceability app into {LANG}.
+The input is one JSON object. Return ONLY one JSON object with exactly the same keys and structure, no markdown.
+Translate the text values of: productName, manufacturer, origin, address, grade, marketNote, specs[].label, specs[].value, marks[].meaning and every item of suspiciousSigns.
+Rules:
+- Keep numbers, units, dates, phone numbers, codes (batch, item, model, serial, IMEI, EID), standard codes, brand names and the names of certification marks exactly as they are.
+- Names of companies and places: translate or transliterate them the way {LANG} speakers normally write them (for Vietnamese use Han-Viet for Chinese names); keep street numbers and postal codes.
+- If a value is already written in {LANG}, keep it unchanged.
+- Never add, remove, merge or reorder items. Every array must keep the same length and order. Do not invent anything.
+Input:
+"""
+
+    /** Text-only call: re-writes the readable fields of an earlier Gemini reading in another language. */
+    suspend fun translate(label: ExtractedLabel, keys: List<String>, language: String): ExtractedLabel =
+        withContext(Dispatchers.IO) {
+            val input = JSONObject()
+                .put("productName", label.productName).put("manufacturer", label.manufacturer)
+                .put("origin", label.origin).put("address", label.address).put("grade", label.grade)
+                .put("marketNote", label.marketNote)
+                .put("specs", JSONArray().also { a -> label.extraSpecs.forEach { (k, v) -> a.put(JSONObject().put("label", k).put("value", v)) } })
+                .put("marks", JSONArray().also { a -> label.marks.forEach { (m, d) -> a.put(JSONObject().put("mark", m).put("meaning", d)) } })
+                .put("suspiciousSigns", JSONArray(label.aiSigns))
+            val body = requestBody(
+                JSONArray().put(JSONObject().put("text", TRANSLATE_PROMPT.replace("{LANG}", language) + input.toString()))
+            )
+            val (o, _) = generate(body, keys) { responseJson(it) }
+
+            fun pairs(arr: JSONArray?, k1: String, k2: String, orig: List<Pair<String, String>>): List<Pair<String, String>> {
+                if (arr == null || arr.length() != orig.size) return orig
+                return List(orig.size) { i ->
+                    val item = arr.optJSONObject(i)
+                    val a = item?.str(k1).orEmpty().ifBlank { orig[i].first }
+                    val b = item?.str(k2).orEmpty().ifBlank { orig[i].second }
+                    a to b
+                }
+            }
+            val signs = o.optJSONArray("suspiciousSigns").strings().let { if (it.size == label.aiSigns.size) it else label.aiSigns }
+            label.copy(
+                productName = o.str("productName").ifBlank { label.productName },
+                manufacturer = o.str("manufacturer").ifBlank { label.manufacturer },
+                origin = o.str("origin").ifBlank { label.origin },
+                address = o.str("address").ifBlank { label.address },
+                grade = o.str("grade").ifBlank { label.grade },
+                marketNote = o.str("marketNote").ifBlank { label.marketNote },
+                extraSpecs = pairs(o.optJSONArray("specs"), "label", "value", label.extraSpecs),
+                // marks keep their printed names; only the meaning is replaced.
+                marks = label.marks.let { orig ->
+                    val arr = o.optJSONArray("marks")
+                    if (arr == null || arr.length() != orig.size) orig
+                    else List(orig.size) { i -> orig[i].first to arr.optJSONObject(i)?.str("meaning").orEmpty().ifBlank { orig[i].second } }
+                },
+                aiSigns = signs,
+            )
         }
 
     /** One pass over the keys for one model. */
-    private fun tryModel(model: String, keys: List<String>, body: String, includeCooling: Boolean): Attempt {
+    private fun <T> tryModel(
+        model: String, keys: List<String>, body: String, includeCooling: Boolean, parse: (String) -> T,
+    ): Attempt<T> {
         val now = System.currentTimeMillis()
         val (ready, cooling) = keys.partition { (cooldownUntil["$model|$it"] ?: 0L) <= now }
         val candidates = if (includeCooling) ready + cooling else ready
@@ -159,7 +221,9 @@ Translation rules (the app user reads {LANG}):
         JSONObject(text).optJSONObject("error")?.optString("message", "")?.take(120) ?: ""
     } catch (e: Exception) { "" }
 
-    private fun parse(responseText: String): ExtractedLabel {
+    private fun parse(responseText: String): ExtractedLabel = toLabel(responseJson(responseText))
+
+    private fun responseJson(responseText: String): JSONObject {
         val root = try { JSONObject(responseText) } catch (e: Exception) { throw GeminiException("bad response") }
         val cands = root.optJSONArray("candidates")
         if (cands == null || cands.length() == 0) {
@@ -179,7 +243,7 @@ Translation rules (the app user reads {LANG}):
         val end = t.lastIndexOf('}')
         if (start < 0 || end <= start) throw GeminiException("no JSON in response")
         val o = try { JSONObject(t.substring(start, end + 1)) } catch (e: Exception) { throw GeminiException("bad JSON") }
-        return toLabel(o)
+        return o
     }
 
     private fun toLabel(o: JSONObject): ExtractedLabel {

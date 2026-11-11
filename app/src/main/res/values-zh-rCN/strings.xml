@@ -10,7 +10,7 @@
     <string name="btn_gallery">选择图片</string>
     <string name="mode_offline">离线</string>
     <string name="mode_gemini">Gemini AI</string>
-    <string name="mode_hint_offline">在手机上运行，照片不会上传。</string>
+    <string name="mode_hint_offline">在手机上运行，照片不会上传。由于没有 AI 视觉模型，识别效果会较差。请使用 AI 模式以获得最准确的数据。</string>
     <string name="mode_hint_gemini">Gemini 拥有视觉模型，读取数据、分析图片和翻译的效果都优于离线模式。</string>
     <string name="need_key">请先添加 Gemini API 密钥以使用 Gemini 模式。</string>
     <string name="btn_add_key">添加密钥</string>
@@ -205,4 +205,6 @@
     <string name="fd_marks">包装上可见的标志：%1$s（为印刷声明，应用不验证）。</string>
     <string name="res_marks_title">包装上的标志和符号</string>
     <string name="sc_market">预期销售市场</string>
+    <string name="res_translating">正在将结果翻译为%1$s…</string>
+    <string name="fd_ocr_poor">离线文字识别对这张照片不太可靠（许多行有乱码）。请使用 Gemini AI 模式获取准确数据。</string>
 </resources>

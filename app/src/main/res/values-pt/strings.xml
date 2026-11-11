@@ -10,7 +10,7 @@
     <string name="btn_gallery">Escolher imagem</string>
     <string name="mode_offline">Offline</string>
     <string name="mode_gemini">Gemini AI</string>
-    <string name="mode_hint_offline">Funciona no seu celular. Sua foto não é enviada.</string>
+    <string name="mode_hint_offline">Funciona no seu celular. Sua foto não é enviada. Sem um modelo de visão como a IA, o reconhecimento dos dados é pior. Use o modo IA para obter os dados mais precisos.</string>
     <string name="mode_hint_gemini">O Gemini tem modelos de visão que leem dados, analisam imagens e traduzem melhor do que o modo offline.</string>
     <string name="need_key">Adicione uma chave da Gemini API para usar o modo Gemini.</string>
     <string name="btn_add_key">Adicionar chave</string>
@@ -205,4 +205,6 @@
     <string name="fd_marks">Marcas vistas na embalagem: %1$s (declarações impressas, o app não as verifica).</string>
     <string name="res_marks_title">Marcas e símbolos da embalagem</string>
     <string name="sc_market">Mercado previsto</string>
+    <string name="res_translating">Traduzindo os resultados para %1$s…</string>
+    <string name="fd_ocr_poor">A leitura de texto offline não está confiável para esta foto (muitas linhas saíram ilegíveis). Use o modo Gemini IA para dados precisos.</string>
 </resources>

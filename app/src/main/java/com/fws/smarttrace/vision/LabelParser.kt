@@ -26,18 +26,47 @@ object LabelParser {
         """GB/T\s?\d{3,5}(?:[.\-]\d{1,4})?|\bGB\s?\d{3,5}(?:[.\-]\d{1,4})?|TCVN\s?\d{3,5}(?:[:\-]\d{4})?|\bEN\s?\d{3,5}(?:[\-:]\d+)?|\bISO\s?\d{3,5}(?:[\-:]\d+)?|ASTM\s?[A-Z]\d{2,4}|JIS\s?[A-Z]\s?\d{3,5}|\bBS\s?\d{3,5}""",
         RegexOption.IGNORE_CASE
     )
-    private val PHONE_LABELED = Regex("""(?:TEL|PHONE|ĐT|ĐIỆN THOẠI|HOTLINE|电话)\W{0,4}(\d[\d\s\-+().]{6,18}\d)""", RegexOption.IGNORE_CASE)
+    private val PHONE_LABELED = Regex("""(?:TEL|PHONE|ĐT|\bDT\b|ĐIỆN THOẠI|HOTLINE|LIÊN HỆ|电话)\W{0,4}(\d[\d\s\-+().]{6,18}\d)""", RegexOption.IGNORE_CASE)
     private val PHONE_CN = Regex("""\b0\d{2,3}[\-\s]\d{7,8}\b""")
     private val ORIGIN = Regex("""(?:MADE IN|PRODUCT OF|ORIGIN|XUẤT XỨ|SẢN XUẤT TẠI|产地)\W{0,3}([A-ZÀ-Ỵ]{3,}(?: [A-ZÀ-Ỵ]{3,})?)""", RegexOption.IGNORE_CASE)
     private val ADDRESS = Regex("""(?:ADDRESS|ADD\.|ĐỊA CHỈ|地址|地\s址)\W{0,3}(.{8,80})""", RegexOption.IGNORE_CASE)
-    private val COMPANY = Regex("""CO\.?,?\s?LTD|COMPANY|LIMITED|\bCORP|\bJSC\b|CÔNG TY|\bCTY\b|有限公司|股份有限公司|制造商|生产商""", RegexOption.IGNORE_CASE)
+    private val COMPANY = Regex("""CO\.?,?\s?LTD|COMPANY|LIMITED|\bCORP|\bJSC\b|CÔNG TY|\bCTY\b|NHÀ MÁY|NHA MAY|XÍ NGHIỆP|CƠ SỞ SẢN XUẤT|有限公司|股份有限公司|制造商|生产商""", RegexOption.IGNORE_CASE)
     private val GENERIC = Regex(
         """GRADE|SIZE|QTY|QUANTITY|ITEM|G\.?W|N\.?W|WEIGHT|COLO|SHADE|PCS|SQM|\bKG|\bMM\b|MADE|EXP|MFG|BATCH|LOT|DATE|TEL|PHONE|ADDRESS|WWW|HTTP""",
         RegexOption.IGNORE_CASE
     )
-    private val PRODUCT_WORDS = Regex("""TILE|ADHESIVE|CEMENT|MORTAR|GROUT|PAINT|GLAZED|CERAMIC|PORCELAIN|WALL|FLOOR|瓷砖|胶|GẠCH|KEO|SƠN|XI MĂNG""", RegexOption.IGNORE_CASE)
+    private val PRODUCT_WORDS = Regex("""TILE|ADHESIVE|CEMENT|MORTAR|GROUT|PAINT|GLAZED|CERAMIC|PORCELAIN|WALL|FLOOR|瓷砖|胶|GẠCH|KEO|SƠN|XI MĂNG|GIẤY|KHĂN|WIPES?|TISSUE|SOAP|XÀ PHÒNG|SHAMPOO|DẦU GỘI|DETERGENT|NƯỚC (?:RỬA|GIẶT|LAU)|BATTERY|CHARGER|CABLE|MOBILE PHONE""", RegexOption.IGNORE_CASE)
     private val VN_CHARS = Regex("[ăâđêôơưạảấầẩẫậắằẳẵặẹẻẽếềểễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ]")
     private val VN_WORDS = Regex("nhà sản xuất|hạn sử dụng|xuất xứ|nhập khẩu|định lượng|sản xuất tại|khối lượng|hướng dẫn|bảo quản")
+
+    private val SHELF_YEARS = Regex("""(?:HẠN SỬ DỤNG|HSD|SHELF\s*LIFE|EXP\.?)\W{0,12}(\d{1,2})\s*(?:NĂM|YEARS?)""", RegexOption.IGNORE_CASE)
+
+    // "Key: value" lines worth showing on the Specs tab. Fields that already have their own row are not repeated.
+    private val SPEC_LINE = Regex(
+        """^(THÀNH PHẦN CHÍNH|THÀNH PHẦN|ĐỊNH LƯỢNG|QUY CÁCH ĐÓNG GÓI|QUY CÁCH|KHỐI LƯỢNG|HƯỚNG DẪN SỬ DỤNG|HƯỚNG DẪN BẢO QUẢN|BẢO QUẢN|CÔNG DỤNG|CẢNH BÁO|LƯU Ý|INGREDIENTS?|DIRECTIONS?|STORAGE|WARNING|COMPOSITION|MATERIAL|USAGE|CAUTION|SPECIFICATIONS?|PACKAGE CONTENTS|成分|主要成分|规格|用途|使用方法|储存条件|注意事项)\s*[:：]\s*(.{2,140})$""",
+        RegexOption.IGNORE_CASE
+    )
+    private val SPEC_HEADING = Regex(
+        """^(THÀNH PHẦN|HƯỚNG DẪN SỬ DỤNG|HƯỚNG DẪN BẢO QUẢN|BẢO QUẢN|CÔNG DỤNG|CẢNH BÁO|LƯU Ý|INGREDIENTS?|DIRECTIONS?|STORAGE|WARNING|CAUTION)\s*[:：]?$""",
+        RegexOption.IGNORE_CASE
+    )
+
+    private fun specs(lines: List<String>): List<Pair<String, String>> {
+        val out = ArrayList<Pair<String, String>>()
+        var i = 0
+        while (i < lines.size && out.size < 12) {
+            val l = lines[i].trim()
+            val m = SPEC_LINE.find(l)
+            if (m != null) {
+                out += m.groupValues[1].trim().lowercase().replaceFirstChar { it.uppercase() } to m.groupValues[2].trim()
+            } else if (SPEC_HEADING.matches(l) && i + 1 < lines.size && !SPEC_HEADING.matches(lines[i + 1].trim())) {
+                out += l.trimEnd(':', '：').lowercase().replaceFirstChar { it.uppercase() } to lines[i + 1].trim()
+                i++
+            }
+            i++
+        }
+        return out.distinct()
+    }
 
     private fun num(s: String?): Double? = s?.let { TextUtil.parseNum(it) }
 
@@ -73,6 +102,7 @@ object LabelParser {
         val mfg = MFG.find(up)?.groupValues?.get(1) ?: ""
         val exp = EXP.find(up)?.groupValues?.get(1) ?: ""
         val shelf = SHELF.find(up)?.groupValues?.get(1)?.toIntOrNull()
+            ?: SHELF_YEARS.find(up)?.groupValues?.get(1)?.toIntOrNull()?.times(12)
         val standards = STANDARD.findAll(up).map { it.value.trim() }.distinct().take(5).toList()
 
         val phone = PHONE_LABELED.find(up)?.groupValues?.get(1)?.trim()
@@ -120,6 +150,8 @@ object LabelParser {
             expDate = exp,
             shelfLifeMonths = shelf,
             standards = standards,
+            extraSpecs = specs(raw.lines()),
+            confidence = ocr.quality,
             hasVietnameseLabel = if (raw.length >= 15) hasVn else null,
             rawText = raw.take(4000),
             visualHints = hints,

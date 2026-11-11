@@ -25,12 +25,14 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -94,7 +96,9 @@ fun ResultScreen(vm: AppViewModel, result: ScanResult, onBack: () -> Unit) {
     val fav = items.firstOrNull { it.id == result.id }?.favorite ?: false
     var tab by rememberSaveable { mutableIntStateOf(0) }
     var confirmDelete by remember { mutableStateOf(false) }
-    val paragraphs = remember(result.id) { speechParagraphs(ctx, result) }
+    val paragraphs = remember(result) { speechParagraphs(ctx, result) }
+    val translating by vm.translating.collectAsState()
+    LaunchedEffect(result.id, result.lang, Languages.currentTag()) { vm.ensureLanguage(result) }
     val tabs = listOf(
         R.string.res_tab_overview, R.string.res_tab_specs, R.string.res_tab_auth, R.string.res_tab_supply, R.string.res_tab_legal,
     )
@@ -125,6 +129,14 @@ fun ResultScreen(vm: AppViewModel, result: ScanResult, onBack: () -> Unit) {
                         unselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
+            }
+            if (translating == result.id) {
+                LinearProgressIndicator(Modifier.fillMaxWidth(), color = AppTheme.colors.gold, trackColor = Color.Transparent)
+                Text(
+                    stringResource(R.string.res_translating, Languages.nativeNames[Languages.currentTag()] ?: ""),
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp),
+                    style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
             }
             Column(
                 Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp),

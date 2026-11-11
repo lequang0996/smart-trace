@@ -102,6 +102,7 @@ class AnalysisPipeline(private val ctx: Context) {
             findings = risk.findings,
             verdict = risk.verdict,
             score = risk.score,
+            lang = Languages.currentTag(),
         )
     }
 

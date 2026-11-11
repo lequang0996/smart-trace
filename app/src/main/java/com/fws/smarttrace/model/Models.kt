@@ -197,6 +197,8 @@ data class ScanResult(
     val findings: List<Finding>,
     val verdict: Verdict,
     val score: Int,
+    /** Language tag the label text is written in (used to translate it when the app language changes). */
+    val lang: String = "",
 ) {
     val title: String get() = label.productName.ifBlank { label.brand }
 
@@ -205,7 +207,7 @@ data class ScanResult(
         put("label", label.toJson())
         put("codes", JSONArray().also { a -> codes.forEach { a.put(it.toJson()) } })
         put("findings", JSONArray().also { a -> findings.forEach { a.put(it.toJson()) } })
-        put("verdict", verdict.name); put("score", score)
+        put("verdict", verdict.name); put("score", score); put("lang", lang)
     }
 
     companion object {
@@ -221,6 +223,7 @@ data class ScanResult(
                 findings = if (finds == null) emptyList() else List(finds.length()) { Finding.fromJson(finds.getJSONObject(it)) },
                 verdict = runCatching { Verdict.valueOf(o.getString("verdict")) }.getOrDefault(Verdict.CHECK),
                 score = o.optInt("score"),
+                lang = o.str("lang"),
             )
         }
     }

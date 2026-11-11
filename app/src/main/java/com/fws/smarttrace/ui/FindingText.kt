@@ -36,6 +36,7 @@ object FindingText {
         "HAND" to Spec(R.string.fd_hand, Group.AUTH),
         "AI_SIGN" to Spec(R.string.fd_ai_sign, Group.AUTH),
         "AI_LOWCONF" to Spec(R.string.fd_ai_lowconf, Group.QUALITY),
+        "OCR_POOR" to Spec(R.string.fd_ocr_poor, Group.QUALITY),
         "AI_FALLBACK" to Spec(R.string.fd_ai_fallback, Group.QUALITY),
         "BLUR" to Spec(R.string.fd_blur, Group.QUALITY),
         "DARK" to Spec(R.string.fd_dark, Group.QUALITY),
